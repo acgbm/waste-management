@@ -1,0 +1,79 @@
+/* Waste Guide Main Container */
+.waste-guide-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f7fc; /* Soft background */
+    padding-left: 160px; /* Ensures content is not covered by sidebar */
+    transition: padding-left 0.3s ease-in-out;
+  }
+  
+  /* Content Box */
+  .waste-guide-content {
+    flex: 1;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: margin 0.3s ease-in-out;
+  }
+  
+  /* Title */
+  .waste-guide-content h2 {
+    font-size: 26px;
+    color: #1D71F2;
+    margin-bottom: 10px;
+  }
+  
+  .waste-guide-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  /* Waste Categories */
+  .waste-category {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Biodegradable */
+  .biodegradable {
+    border-left: 5px solid #28a745;
+    background: #e6f4ea;
+  }
+  
+  /* Non-Biodegradable */
+  .non-biodegradable {
+    border-left: 5px solid #dc3545;
+    background: #fbe6e9;
+  }
+  
+  /* Recyclable */
+  .recyclable {
+    border-left: 5px solid #007bff;
+    background: #e6f0fb;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .waste-guide-container {
+      padding-left: 220px; /* Adjust for medium screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .waste-guide-container {
+      padding-left: 0; /* Full width on mobile */
+    }
+  
+    .waste-guide-content {
+      width: 90%;
+    }
+  }
+  
