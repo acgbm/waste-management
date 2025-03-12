@@ -1,0 +1,134 @@
+/* Dashboard Main Container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f7fc;
+    padding-left: 140px; /* Reduced to fit more content */
+    transition: padding-left 0.3s ease-in-out;
+  }
+  
+  /* Content Box */
+  .dashboard-content {
+    flex: 1;
+    max-width: 95%; /* Make it more full-width */
+    margin: 10px auto;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: margin 0.3s ease-in-out;
+  }
+  
+  /* Title */
+  .dashboard-content h2 {
+    font-size: 22px; /* Smaller for more space */
+    color: #1D71F2;
+    margin-bottom: 8px;
+  }
+  
+  .dashboard-content p {
+    font-size: 14px; /* Smaller text */
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  /* Filters */
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .filters button {
+    padding: 6px 12px; /* Smaller buttons */
+    border: none;
+    background: #f1f5f9;
+    color: #333;
+    border-radius: 18px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .filters button.active,
+  .filters button:hover {
+    background: #1D71F2;
+    color: white;
+    transform: translateY(-1px);
+  }
+  
+  /* Schedule List */
+  .schedule-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  
+  /* Schedule Items */
+  .schedule-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px; /* Reduced padding */
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  /* Biodegradable */
+  .schedule-item.biodegradable {
+    border-left: 4px solid #28a745;
+    background: #e6f4ea;
+  }
+  
+  /* Non-Biodegradable */
+  .schedule-item.non-biodegradable {
+    border-left: 4px solid #dc3545;
+    background: #fbe6e9;
+  }
+  
+  /* Recyclable */
+  .schedule-item.recyclable {
+    border-left: 4px solid #007bff;
+    background: #e6f0fb;
+  }
+  
+  /* No Schedules */
+  .no-schedules {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    padding: 8px 0;
+  }
+  
+  /* Calendar */
+  .calendar {
+    margin-top: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .dashboard-container {
+      padding-left: 180px; /* Adjusted for medium screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding-left: 0;
+    }
+  
+    .dashboard-content {
+      width: 95%;
+    }
+  
+    .filters {
+      flex-wrap: wrap;
+    }
+  }
+  
