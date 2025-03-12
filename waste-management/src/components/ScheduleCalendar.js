@@ -8,9 +8,13 @@ const ScheduleCalendar = ({ schedules }) => {
 
   // Function to find schedules for the selected date
   const getSchedulesForDate = (date) => {
-    return schedules.filter(
-      (schedule) => schedule.date === date.toISOString().split("T")[0]
-    );
+    const adjustedDate = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    ) // ✅ Fix timezone shift
+      .toISOString()
+      .split("T")[0];
+
+    return schedules.filter((schedule) => schedule.date === adjustedDate);
   };
 
   return (

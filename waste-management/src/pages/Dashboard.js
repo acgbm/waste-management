@@ -12,11 +12,20 @@ const Dashboard = () => {
     const fetchSchedules = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "schedules"));
-        const scheduleData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          date: new Date(doc.data().date + "T00:00:00").toISOString().split("T")[0],
-        }));
+        const scheduleData = querySnapshot.docs.map((doc) => {
+          let rawDate = doc.data().date; // Expected format: "2025-03-15"
+          
+          // Convert to correct date without timezone shifting
+          const formattedDate = new Date(rawDate + "T00:00:00Z")
+            .toISOString()
+            .split("T")[0];
+
+          return {
+            id: doc.id,
+            ...doc.data(),
+            date: formattedDate, // ✅ Fixed date formatting
+          };
+        });
 
         setSchedules(scheduleData);
       } catch (error) {
