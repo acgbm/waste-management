@@ -1,79 +1,121 @@
+/* Ensure html and body take full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* Waste Guide Main Container */
 .waste-guide-container {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f4f7fc; /* Soft background */
-    padding-left: 160px; /* Ensures content is not covered by sidebar */
-    transition: padding-left 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  height: 100vh; /* Fixed height so overflow is detected */
+  background-color: #f4f7fc; /* Soft background */
+  padding-left: 160px; /* Ensures content is not covered by sidebar */
+  transition: padding-left 0.3s ease-in-out;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Content Box */
+.waste-guide-content {
+  max-width: 1250px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.waste-guide-content h2 {
+  font-size: 26px;
+  color: #1D71F2;
+  margin-bottom: 10px;
+}
+
+.waste-guide-content p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Video Styling */
+.waste-guide-video {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Waste Categories */
+.waste-category {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+}
+
+/* Biodegradable */
+.biodegradable {
+  border-left: 5px solid #28a745;
+  background: #e6f4ea;
+}
+
+/* Non-Biodegradable */
+.non-biodegradable {
+  border-left: 5px solid #dc3545;
+  background: #fbe6e9;
+}
+
+/* Recyclable */
+.recyclable {
+  border-left: 5px solid #007bff;
+  background: #e6f0fb;
+}
+
+/* Recyclable images styling */
+.waste-guide-images-recycle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.waste-guide-images-recycle img {
+  max-width: 40%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+/* New styles for the images container in the biodegradable section */
+.waste-guide-images {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.waste-guide-images img {
+  width: calc(33.33% - 6.67px); /* Approximately one-third minus the gap */
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .waste-guide-container {
+    padding-left: 220px; /* Adjust for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .waste-guide-container {
+    padding-left: 0; /* Full width on mobile */
   }
   
-  /* Content Box */
   .waste-guide-content {
-    flex: 1;
-    max-width: 1100px;
-    margin: 20px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: margin 0.3s ease-in-out;
+    width: 90%;
   }
-  
-  /* Title */
-  .waste-guide-content h2 {
-    font-size: 26px;
-    color: #1D71F2;
-    margin-bottom: 10px;
-  }
-  
-  .waste-guide-content p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 20px;
-  }
-  
-  /* Waste Categories */
-  .waste-category {
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    color: #333;
-  }
-  
-  /* Biodegradable */
-  .biodegradable {
-    border-left: 5px solid #28a745;
-    background: #e6f4ea;
-  }
-  
-  /* Non-Biodegradable */
-  .non-biodegradable {
-    border-left: 5px solid #dc3545;
-    background: #fbe6e9;
-  }
-  
-  /* Recyclable */
-  .recyclable {
-    border-left: 5px solid #007bff;
-    background: #e6f0fb;
-  }
-  
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .waste-guide-container {
-      padding-left: 220px; /* Adjust for medium screens */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .waste-guide-container {
-      padding-left: 0; /* Full width on mobile */
-    }
-  
-    .waste-guide-content {
-      width: 90%;
-    }
-  }
-  
+}
