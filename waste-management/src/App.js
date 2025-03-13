@@ -1,32 +1,36 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import Sidebar from "./components/Sidebar";
-import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import WasteGuide from "./pages/WasteGuide";
 import AdminDashboard from "./pages/AdminDashboard";
+import WasteGuide from "./pages/WasteGuide";
 import Scheduling from "./pages/Scheduling";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import "./App.css";
 
 // Root redirect component
 const RootRedirect = () => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
 
+  // If not authenticated, redirect to login
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" />;
   }
 
-  return <Navigate to={user.isAdmin ? "/admin" : "/dashboard"} replace />;
+  // If authenticated, redirect based on role
+  if (user.isAdmin) {
+    return <Navigate to="/admin" />;
+  }
+  return <Navigate to="/dashboard" />;
 };
 
-// Protected Route Component with Sidebar
-const ProtectedRoute = ({ children, requireAdmin, allowBoth }) => {
+// Protected Route component
+const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -34,39 +38,28 @@ const ProtectedRoute = ({ children, requireAdmin, allowBoth }) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" />;
   }
 
-  if (allowBoth) {
-    return (
-      <>
-        <Sidebar />
-        <div className="content">
-          {children}
-        </div>
-      </>
-    );
-  }
-
-  if (requireAdmin && !user.isAdmin) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  if (!requireAdmin && user.isAdmin && !allowBoth) {
-    return <Navigate to="/admin" replace />;
-  }
-
-  return (
-    <>
-      <Sidebar />
-      <div className="content">
-        {children}
-      </div>
-    </>
-  );
+  return children;
 };
 
-// Public Route Component
+// Admin Route component
+const AdminRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (!user || !user.isAdmin) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
+
+// Public Route component
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -74,73 +67,35 @@ const PublicRoute = ({ children }) => {
     return <div className="loading">Loading...</div>;
   }
 
+  // If user is authenticated, redirect them to their appropriate dashboard
   if (user) {
-    return <Navigate to={user.isAdmin ? "/admin" : "/dashboard"} replace />;
+    return <Navigate to={user.isAdmin ? "/admin" : "/dashboard"} />;
   }
 
+  // If not authenticated, show the public route (login/signup)
   return children;
 };
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <div className="app-container">
+        <Router>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+            <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
+
+            {/* Protected routes */}
+            <Route path="/" element={<ProtectedRoute><RootRedirect /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+            <Route path="/scheduling" element={<AdminRoute><Scheduling /></AdminRoute>} />
+            <Route path="/waste-guide" element={<ProtectedRoute><WasteGuide /></ProtectedRoute>} />
+          </Routes>
+        </Router>
+      </div>
     </AuthProvider>
-  );
-}
-
-// Separate component for content that needs auth context
-function AppContent() {
-  const { loading } = useAuth();
-
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
-  return (
-    <div className="app-container">
-      <Routes>
-        {/* Public routes */}
-        <Route path="/signup" element={
-          <PublicRoute>
-            <Signup />
-          </PublicRoute>
-        } />
-        <Route path="/login" element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        } />
-
-        {/* Protected routes */}
-        <Route path="/" element={<RootRedirect />} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin" element={
-          <ProtectedRoute requireAdmin={true}>
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/waste-guide" element={
-          <ProtectedRoute allowBoth={true}>
-            <WasteGuide />
-          </ProtectedRoute>
-        } />
-        <Route path="/scheduling" element={
-          <ProtectedRoute requireAdmin={true}>
-            <Scheduling />
-          </ProtectedRoute>
-        } />
-
-        {/* Catch all route */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </div>
   );
 }
 
