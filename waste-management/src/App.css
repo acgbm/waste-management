@@ -37,13 +37,55 @@
   }
 }
 
+/* App Container */
 .app-container {
   display: flex;
+  min-height: 100vh;
+  background-color: #f5f5f5;
 }
 
+/* Main Content Area */
 .content {
-  margin-left: 250px; /* Adjust based on Sidebar width */
-  flex-grow: 1;
+  flex: 1;
   padding: 20px;
+  margin-left: 250px; /* Match the sidebar width */
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* For login and signup pages */
+.app-container .login-container,
+.app-container .signup-container {
+  margin-left: 0;
+  width: 100%;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 

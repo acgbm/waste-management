@@ -14,60 +14,72 @@
   }
   
   .logo-container {
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Increased margin */
+    padding: 10px;
   }
   
   .logo {
     width: 80px; /* ✅ Smaller logo */
     border-radius: 50%;
+    display: block; /* Ensure proper centering */
+    margin: 0 auto;
   }
   
   .menu {
     list-style: none;
     padding: 0;
     width: 100%;
-    margin-top: 10px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Add consistent spacing between items */
+    padding: 0 10px; /* Add horizontal padding */
   }
   
   .menu li {
-    margin-top: auto;
-    margin-left: 10px;
-    width: 85%; /* ✅ Smaller width */
+    margin: 0; /* Reset margins */
+    width: 100%; /* Full width */
     padding: 8px;
     text-align: center;
     border-radius: 4px;
     background: #807d7d; /* ✅ Darker background */
+    transition: background-color 0.3s ease, transform 0.2s;
+  }
+  
+  .menu li:hover {
+    background: #666;
+    transform: scale(1.02);
   }
   
   .menu li a {
     text-decoration: none;
-    color: #000000; /* ✅ Soft gray text */
+    color: #ffffff; /* Changed to white for better contrast */
     font-size: 14px; /* ✅ Smaller text */
     display: block;
-    transition: color 0.3s ease-in-out, transform 0.2s;
+    padding: 4px 0;
+    transition: color 0.3s ease-in-out;
   }
   
   .menu li a:hover {
-    color: #ffffff; /* ✅ Bright hover */
-    transform: scale(1.08);
+    color: #ffffff;
   }
   
   .logout-btn {
     margin-top: auto;
-    margin-bottom: 50px;
-    width: 85%; /* ✅ Smaller width */
-    padding: 8px;
+    margin-bottom: 20px;
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 10px;
     background: #ff3b3b; /* ✅ Modern red */
     color: white;
     border: none;
     cursor: pointer;
     font-size: 14px;
     border-radius: 4px; /* ✅ Slightly rounded */
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, transform 0.2s;
   }
   
   .logout-btn:hover {
     background: #b32424;
-    transform: scale(1.08);
+    transform: scale(1.02);
   }
   

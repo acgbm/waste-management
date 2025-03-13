@@ -8,21 +8,27 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   overflow: hidden;
 }
 
 /* Fullscreen Container */
 .login-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(-45deg, #1D71F2, #1C9CF6, #19C3FB, #E3F4FE);
   background-size: 400% 400%;
   animation: gradientAnimation 10s ease infinite;
+  overflow: hidden;
 }
 
 /* Moving Background */
@@ -50,7 +56,12 @@ body {
 /* Logo */
 .logo {
   width: 100px;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  color: white;
+  margin-bottom: 1.5rem;
 }
 
 /* Inputs */
@@ -60,15 +71,15 @@ input {
   margin: 8px 0;
   border: none;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
   font-size: 16px;
   outline: none;
 }
 
 /* Placeholder Text */
 input::placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
 }
 
 /* Button */
@@ -88,18 +99,22 @@ button {
 
 button:hover {
   background: #FFFAE0;
+  transform: translateY(-2px);
 }
 
 /* Error Message */
 .error-message {
-  color: red;
+  color: #ff4444;
   font-size: 14px;
-  margin-bottom: 10px;
+  margin: 0.5rem 0;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
 }
 
 /* Sign Up Link */
 p {
-  margin-top: 10px;
+  margin-top: 1rem;
   color: white;
   font-size: 14px;
 }
@@ -108,9 +123,11 @@ a {
   color: #FFCD00;
   text-decoration: none;
   font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 a:hover {
+  color: #FFFAE0;
   text-decoration: underline;
 }
 
@@ -131,7 +148,9 @@ a:hover {
 @media (max-width: 400px) {
   .login-box {
     width: 90%;
+    max-width: 350px;
     padding: 1.5rem;
+    margin: 1rem;
   }
 
   input, button {

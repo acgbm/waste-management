@@ -8,12 +8,43 @@ const Dashboard = () => {
   const [schedules, setSchedules] = useState([]);
   const [filterType, setFilterType] = useState("all");
 
+  // Add time format conversion function
+  const formatTime = (time24) => {
+    if (!time24) return '';
+    const [hours, minutes] = time24.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
+  };
+
+  // Calculate put-out time (30 minutes before collection)
+  const calculatePutOutTime = (time24) => {
+    if (!time24) return '';
+    const [hours, minutes] = time24.split(':');
+    let hour = parseInt(hours);
+    let minute = parseInt(minutes);
+    
+    // Subtract 30 minutes
+    if (minute < 30) {
+      hour = (hour - 1 + 24) % 24; // Handle midnight rollover
+      minute = minute + 30;
+    } else {
+      minute = minute - 30;
+    }
+    
+    // Format the time
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
+  };
+
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "schedules"));
         const scheduleData = querySnapshot.docs.map((doc) => {
-          let rawDate = doc.data().date; // Expected format: "2025-03-15"
+          let rawDate = doc.data().date;
           
           // Convert to correct date without timezone shifting
           const formattedDate = new Date(rawDate + "T00:00:00Z")
@@ -23,7 +54,7 @@ const Dashboard = () => {
           return {
             id: doc.id,
             ...doc.data(),
-            date: formattedDate, // ✅ Fixed date formatting
+            date: formattedDate,
           };
         });
 
@@ -66,11 +97,20 @@ const Dashboard = () => {
             filteredSchedules.map((schedule) => (
               <li key={schedule.id} className={`schedule-item ${schedule.type.replace(/\s+/g, "-").toLowerCase()}`}>
                 <span className="tag">{schedule.type}</span>
-                <div>
-                  <strong>{schedule.location}</strong>
-                  <p>{schedule.date} at {schedule.time}</p>
+                <div className="schedule-details">
+                  <strong>{schedule.barangay}</strong>
+                  <p className="schedule-time">
+                    {schedule.date} at {schedule.timeFormatted || formatTime(schedule.time)}
+                  </p>
+                  <p className="put-out-note">
+                    Put out waste bags before {calculatePutOutTime(schedule.time)}
+                  </p>
                 </div>
-                <small>{schedule.notes}</small>
+                <div className="schedule-status">
+                  <span className={`status-badge ${schedule.status}`}>
+                    {schedule.status || 'pending'}
+                  </span>
+                </div>
               </li>
             ))
           ) : (

@@ -17,6 +17,12 @@ const ScheduleCalendar = ({ schedules }) => {
     return schedules.filter((schedule) => schedule.date === adjustedDate);
   };
 
+  // Function to get marker classes based on schedule types
+  const getMarkerClasses = (schedules) => {
+    const types = new Set(schedules.map(schedule => schedule.type));
+    return Array.from(types).map(type => `calendar-marker-${type}`).join(' ');
+  };
+
   return (
     <div className="calendar-container">
       {/* Small Calendar */}
@@ -24,10 +30,23 @@ const ScheduleCalendar = ({ schedules }) => {
         onChange={setSelectedDate}
         value={selectedDate}
         tileContent={({ date }) => {
-          const scheduleForDay = getSchedulesForDate(date);
-          return scheduleForDay.length > 0 ? (
-            <div className="calendar-marker">📌</div>
-          ) : null;
+          const schedulesForDay = getSchedulesForDate(date);
+          if (schedulesForDay.length > 0) {
+            return (
+              <div className="calendar-markers">
+                {schedulesForDay.map((schedule, index) => (
+                  <div 
+                    key={index} 
+                    className={`calendar-marker calendar-marker-${schedule.type}`}
+                    title={`${schedule.type} collection`}
+                  >
+                    📌
+                  </div>
+                ))}
+              </div>
+            );
+          }
+          return null;
         }}
         className="small-calendar"
       />
@@ -38,14 +57,33 @@ const ScheduleCalendar = ({ schedules }) => {
         <ul>
           {getSchedulesForDate(selectedDate).length > 0 ? (
             getSchedulesForDate(selectedDate).map((schedule, index) => (
-              <li key={index}>
-                <strong>{schedule.type}</strong> - {schedule.location}
+              <li key={index} className={`schedule-item-${schedule.type}`}>
+                <strong>{schedule.type}</strong> - {schedule.barangay}
+                <div className="schedule-time">
+                  {schedule.timeFormatted || schedule.time}
+                </div>
               </li>
             ))
           ) : (
             <p>No scheduled collections.</p>
           )}
         </ul>
+      </div>
+
+      {/* Legend */}
+      <div className="calendar-legend">
+        <div className="legend-item">
+          <div className="legend-marker calendar-marker-biodegradable">📌</div>
+          <span>Biodegradable</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-marker calendar-marker-non-biodegradable">📌</div>
+          <span>Non-biodegradable</span>
+        </div>
+        <div className="legend-item">
+          <div className="legend-marker calendar-marker-recyclable">📌</div>
+          <span>Recyclable</span>
+        </div>
       </div>
     </div>
   );

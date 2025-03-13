@@ -1,134 +1,249 @@
 /* Dashboard Main Container */
 .dashboard-container {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f4f7fc;
-    padding-left: 140px; /* Reduced to fit more content */
-    transition: padding-left 0.3s ease-in-out;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f7fc;
+  padding-left: 140px;
+  transition: padding-left 0.3s ease-in-out;
+}
+
+/* Content Box */
+.dashboard-content {
+  flex: 1;
+  max-width: 95%;
+  margin: 10px auto;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: margin 0.3s ease-in-out;
+}
+
+/* Title */
+.dashboard-content h2 {
+  font-size: 22px;
+  color: #1D71F2;
+  margin-bottom: 8px;
+}
+
+.dashboard-content p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.filters button {
+  padding: 6px 12px;
+  border: none;
+  background: #f1f5f9;
+  color: #333;
+  border-radius: 18px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.filters button.active,
+.filters button:hover {
+  background: #1D71F2;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Schedule List */
+.schedule-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+/* Schedule Items */
+.schedule-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  margin-bottom: 10px;
+  background: white;
+}
+
+/* Schedule Details */
+.schedule-details {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.schedule-details strong {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.schedule-time {
+  color: #555;
+  margin: 4px 0;
+}
+
+/* Put-out Note */
+.put-out-note {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 4px;
+  font-style: italic;
+  padding: 4px 0;
+  border-top: 1px dashed #ddd;
+}
+
+/* Schedule Status */
+.schedule-status {
+  min-width: 100px;
+  text-align: right;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.in-progress {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status-badge.completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Type Tags */
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Biodegradable */
+.schedule-item.biodegradable {
+  border-left: 4px solid #28a745;
+}
+
+.biodegradable .tag {
+  background: #e6f4ea;
+  color: #28a745;
+}
+
+/* Non-Biodegradable */
+.schedule-item.non-biodegradable {
+  border-left: 4px solid #dc3545;
+}
+
+.non-biodegradable .tag {
+  background: #fbe6e9;
+  color: #dc3545;
+}
+
+/* Recyclable */
+.schedule-item.recyclable {
+  border-left: 4px solid #007bff;
+}
+
+.recyclable .tag {
+  background: #e6f0fb;
+  color: #007bff;
+}
+
+/* No Schedules */
+.no-schedules {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* Calendar */
+.calendar {
+  margin-top: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    padding-left: 180px;
   }
-  
-  /* Content Box */
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding-left: 0;
+  }
+
   .dashboard-content {
-    flex: 1;
-    max-width: 95%; /* Make it more full-width */
+    width: 95%;
     margin: 10px auto;
-    padding: 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    transition: margin 0.3s ease-in-out;
   }
-  
-  /* Title */
-  .dashboard-content h2 {
-    font-size: 22px; /* Smaller for more space */
-    color: #1D71F2;
-    margin-bottom: 8px;
-  }
-  
-  .dashboard-content p {
-    font-size: 14px; /* Smaller text */
-    color: #555;
-    margin-bottom: 15px;
-  }
-  
-  /* Filters */
+
   .filters {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 15px;
+    flex-wrap: wrap;
   }
-  
+
   .filters button {
-    padding: 6px 12px; /* Smaller buttons */
-    border: none;
-    background: #f1f5f9;
-    color: #333;
-    border-radius: 18px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: 0.3s ease;
+    flex: 1;
+    min-width: 45%;
   }
-  
-  .filters button.active,
-  .filters button:hover {
-    background: #1D71F2;
-    color: white;
-    transform: translateY(-1px);
-  }
-  
-  /* Schedule List */
-  .schedule-list {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 15px;
-  }
-  
-  /* Schedule Items */
+
   .schedule-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px; /* Reduced padding */
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    font-size: 14px;
-    margin-bottom: 8px;
+    flex-direction: column;
   }
-  
-  /* Biodegradable */
-  .schedule-item.biodegradable {
-    border-left: 4px solid #28a745;
-    background: #e6f4ea;
+
+  .schedule-details {
+    margin: 10px 0;
   }
-  
-  /* Non-Biodegradable */
-  .schedule-item.non-biodegradable {
-    border-left: 4px solid #dc3545;
-    background: #fbe6e9;
+
+  .schedule-status {
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
   }
-  
-  /* Recyclable */
-  .schedule-item.recyclable {
-    border-left: 4px solid #007bff;
-    background: #e6f0fb;
+
+  .tag {
+    width: 100%;
+    margin-bottom: 10px;
   }
-  
-  /* No Schedules */
-  .no-schedules {
-    text-align: center;
-    font-size: 12px;
-    color: #888;
-    padding: 8px 0;
-  }
-  
-  /* Calendar */
-  .calendar {
-    margin-top: 15px;
-    padding: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .dashboard-container {
-      padding-left: 180px; /* Adjusted for medium screens */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .dashboard-container {
-      padding-left: 0;
-    }
-  
-    .dashboard-content {
-      width: 95%;
-    }
-  
-    .filters {
-      flex-wrap: wrap;
-    }
-  }
-  
+}

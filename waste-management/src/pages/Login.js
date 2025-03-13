@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
 import "./Login.css";
 import logo from "../assets/logo.png"; // Ensure the logo exists in this path
 
@@ -16,8 +17,14 @@ const Login = () => {
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
+      
+      if (userDoc.exists() && userDoc.data().role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       setError("Invalid email or password.");
     }

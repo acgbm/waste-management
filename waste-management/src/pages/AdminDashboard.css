@@ -1,0 +1,222 @@
+.admin-dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f7fc;
+  padding-left: 160px;
+  transition: padding-left 0.3s ease-in-out;
+}
+
+.admin-dashboard-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dashboard-content h2 {
+  color: #1D71F2;
+  margin-bottom: 20px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #f1f5f9;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  background: #1D71F2;
+  color: white;
+}
+
+.tab-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+/* Table Header with Filters */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+  background: #1D71F2;
+  color: white;
+  border-color: #1D71F2;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Button Styles */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.archive-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #f59e0b;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.archive-btn:hover {
+  background: #d97706;
+}
+
+.restore-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #10b981;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.restore-btn:hover {
+  background: #059669;
+}
+
+.promote-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #1D71F2;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.promote-btn:hover {
+  background: #1a5fc8;
+}
+
+/* Status Select Styles */
+select {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .admin-dashboard-container {
+    padding-left: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    padding-left: 0;
+  }
+
+  .admin-dashboard-content {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th, td {
+    min-width: 120px;
+  }
+}
+
+/* Table Header Sticky */
+thead {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+/* Status Colors */
+select[value="pending"] {
+  color: #ffc107;
+}
+
+select[value="in-progress"] {
+  color: #17a2b8;
+}
+
+select[value="completed"] {
+  color: #28a745;
+}
+
+select[value="cancelled"] {
+  color: #dc3545;
+} 
