@@ -31,12 +31,28 @@ const Signup = () => {
         address,
         phone,
         uid: user.uid,
+        createdAt: new Date().toISOString(),
       });
 
       alert("Signup successful!");
       navigate("/login");
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      console.error("Signup error:", err.code, err.message);
+
+      // Firebase error handling
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          setError("This email is already registered. Try logging in.");
+          break;
+        case "auth/weak-password":
+          setError("Password must be at least 6 characters long.");
+          break;
+        case "auth/invalid-email":
+          setError("Please enter a valid email address.");
+          break;
+        default:
+          setError("Signup failed. Please try again.");
+      }
     }
   };
 
