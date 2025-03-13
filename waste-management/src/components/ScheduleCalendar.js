@@ -17,12 +17,6 @@ const ScheduleCalendar = ({ schedules }) => {
     return schedules.filter((schedule) => schedule.date === adjustedDate);
   };
 
-  // Function to get marker classes based on schedule types
-  const getMarkerClasses = (schedules) => {
-    const types = new Set(schedules.map(schedule => schedule.type));
-    return Array.from(types).map(type => `calendar-marker-${type}`).join(' ');
-  };
-
   return (
     <div className="calendar-container">
       {/* Small Calendar */}

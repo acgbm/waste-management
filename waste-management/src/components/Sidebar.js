@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Sidebar.css"; // Ensure you create this CSS file for styling
 import logo from "../assets/logo.png"; // Adjust the path if needed
 import { signOut } from "firebase/auth";
@@ -7,7 +7,6 @@ import { auth } from "../firebaseConfig";
 import { useAuth } from "../context/AuthContext";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   const handleLogout = async () => {

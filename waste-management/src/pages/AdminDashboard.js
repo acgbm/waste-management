@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, doc, updateDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -8,7 +8,6 @@ const AdminDashboard = () => {
   const [schedules, setSchedules] = useState([]);
   const [activeTab, setActiveTab] = useState("users");
   const [loading, setLoading] = useState(true);
-  const [userFilter, setUserFilter] = useState("active"); // active, archived
 
   useEffect(() => {
     fetchUsers();
@@ -68,21 +67,6 @@ const AdminDashboard = () => {
       } catch (error) {
         console.error("Error archiving user:", error);
         alert("Failed to archive user");
-      }
-    }
-  };
-
-  const handleRestoreUser = async (userId) => {
-    if (window.confirm("Are you sure you want to restore this user?")) {
-      try {
-        await updateDoc(doc(db, "users", userId), {
-          status: "active"
-        });
-        setUsers(users.filter(user => user.id !== userId));
-        alert("User restored successfully!");
-      } catch (error) {
-        console.error("Error restoring user:", error);
-        alert("Failed to restore user");
       }
     }
   };
