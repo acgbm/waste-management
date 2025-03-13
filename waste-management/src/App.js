@@ -6,8 +6,21 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import WasteGuide from "./pages/WasteGuide";
 import Scheduling from "./pages/Scheduling";
+import Sidebar from "./components/Sidebar";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import "./App.css";
+
+// Layout component to wrap protected routes
+const Layout = ({ children }) => {
+  return (
+    <div className="app-layout">
+      <Sidebar />
+      <div className="content">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 // Root redirect component
 const RootRedirect = () => {
@@ -17,12 +30,10 @@ const RootRedirect = () => {
     return <div className="loading">Loading...</div>;
   }
 
-  // If not authenticated, redirect to login
   if (!user) {
     return <Navigate to="/login" />;
   }
 
-  // If authenticated, redirect based on role
   if (user.isAdmin) {
     return <Navigate to="/admin" />;
   }
@@ -41,7 +52,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return <Layout>{children}</Layout>;
 };
 
 // Admin Route component
@@ -56,7 +67,7 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return <Layout>{children}</Layout>;
 };
 
 // Public Route component
@@ -67,12 +78,10 @@ const PublicRoute = ({ children }) => {
     return <div className="loading">Loading...</div>;
   }
 
-  // If user is authenticated, redirect them to their appropriate dashboard
   if (user) {
     return <Navigate to={user.isAdmin ? "/admin" : "/dashboard"} />;
   }
 
-  // If not authenticated, show the public route (login/signup)
   return children;
 };
 

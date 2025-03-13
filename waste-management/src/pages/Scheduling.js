@@ -160,7 +160,6 @@ const Scheduling = () => {
                 value={newSchedule.barangay}
                 onChange={handleInputChange}
                 required
-                placeholder="Enter barangay name"
                 className="form-control"
               />
             </div>

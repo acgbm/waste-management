@@ -229,8 +229,8 @@ const AdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {schedules.map(schedule => (
-                      <tr key={schedule.id} className={`schedule-row ${schedule.type}`}>
+                    {schedules.map((schedule) => (
+                      <tr key={schedule.id} className={schedule.type}>
                         <td>{schedule.barangay || 'No location set'}</td>
                         <td>{schedule.date}</td>
                         <td>{schedule.timeFormatted || formatTime(schedule.time)}</td>

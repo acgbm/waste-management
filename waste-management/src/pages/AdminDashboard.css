@@ -1,19 +1,17 @@
+/* Admin Dashboard Main Container */
 .admin-dashboard-container {
   display: flex;
-  min-height: 100vh;
-  background-color: #f4f7fc;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ffffff;
   padding-left: 160px;
-  transition: padding-left 0.3s ease-in-out;
+  overflow-y: auto;
 }
 
+/* Content Box */
 .admin-dashboard-content {
-  flex: 1;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px 40px;
+  height: 100%;
 }
 
 .admin-dashboard-content h2 {
@@ -27,18 +25,27 @@
   margin-bottom: 20px;
 }
 
+.tab-buttons {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  width: 1000px;
+  margin: 0 auto 24px;
+}
+
 .tab-button {
-  padding: 10px 20px;
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
   border: none;
-  border-radius: 5px;
-  background: #f1f5f9;
-  color: #333;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  background: #f3f4f6;
+  color: #333;
 }
 
 .tab-button.active {
-  background: #1D71F2;
+  background: #1a73e8;
   color: white;
 }
 
@@ -54,7 +61,14 @@
   color: #666;
 }
 
-/* Table Header with Filters */
+/* Tables Container */
+.users-table,
+.schedules-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table Header */
 .table-header {
   display: flex;
   justify-content: space-between;
@@ -62,25 +76,10 @@
   margin-bottom: 20px;
 }
 
-.filter-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.filter-btn {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  color: #666;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filter-btn.active {
-  background: #1D71F2;
-  color: white;
-  border-color: #1D71F2;
+.table-header h3 {
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 /* Table Styles */
@@ -88,6 +87,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  min-width: 800px; /* Ensure minimum width for both tables */
 }
 
 th, td {
@@ -99,7 +99,8 @@ th, td {
 th {
   background-color: #f8f9fa;
   color: #333;
-  font-weight: 600;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 tr:hover {
@@ -110,16 +111,21 @@ tr:hover {
 .action-buttons {
   display: flex;
   gap: 8px;
-  align-items: center;
+}
+
+.archive-btn,
+.promote-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .archive-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
   background: #f59e0b;
   color: white;
-  cursor: pointer;
   transition: background 0.3s ease;
 }
 
@@ -127,27 +133,9 @@ tr:hover {
   background: #d97706;
 }
 
-.restore-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  background: #10b981;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.restore-btn:hover {
-  background: #059669;
-}
-
 .promote-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
   background: #1D71F2;
   color: white;
-  cursor: pointer;
   transition: background 0.3s ease;
 }
 
@@ -157,11 +145,11 @@ tr:hover {
 
 /* Status Select Styles */
 select {
-  padding: 6px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
   background: white;
-  cursor: pointer;
+  min-width: 120px;
 }
 
 /* Responsive Design */
@@ -177,8 +165,12 @@ select {
   }
 
   .admin-dashboard-content {
-    margin: 10px;
-    padding: 15px;
+    padding: 16px;
+  }
+
+  .users-table,
+  .schedules-table {
+    overflow-x: auto;
   }
 
   .table-header {
@@ -217,6 +209,255 @@ select[value="completed"] {
   color: #28a745;
 }
 
-select[value="cancelled"] {
-  color: #dc3545;
+/* Collection Schedules Table */
+.schedules-section {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.schedules-section h3 {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.schedules-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedules-section th {
+  text-align: left;
+  padding: 12px 20px;
+  color: #666;
+  font-weight: normal;
+  border-bottom: 1px solid #eee;
+}
+
+/* Row styles based on waste type */
+tr.non-biodegradable {
+  background-color: #fff1f1;
+}
+
+tr.non-biodegradable td:first-child {
+  border-left: 4px solid #ff4d4d;
+}
+
+tr.recyclable {
+  background-color: #f0f7ff;
+}
+
+tr.recyclable td:first-child {
+  border-left: 4px solid #1a73e8;
+}
+
+tr.biodegradable {
+  background-color: #f0fff4;
+}
+
+tr.biodegradable td:first-child {
+  border-left: 4px solid #4CAF50;
+}
+
+/* Table cells */
+.schedules-section td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Status dropdown */
+.schedules-section select {
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  background: white;
+  color: #1a73e8;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+/* Archive button */
+.schedules-section .archive-btn {
+  padding: 8px 16px;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Container to ensure consistent width */
+.dashboard-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Ensure table container maintains width */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 20px;
+  min-width: 1000px;
+}
+
+/* Table header styles */
+.table-container h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Common table styles for both Users and Schedules */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th {
+  text-align: left;
+  padding: 12px 20px;
+  color: #666;
+  font-weight: normal;
+  border-bottom: 1px solid #eee;
+}
+
+.table-container td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Common button styles */
+.action-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.archive-btn {
+  background: #f59e0b;
+  color: white;
+}
+
+/* Put-out time note */
+.put-out-time {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Main container */
+.admin-dashboard {
+  padding: 24px;
+}
+
+/* Title */
+.admin-dashboard h1 {
+  color: #1a73e8;
+  font-size: 20px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Tab buttons */
+.tab-container {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #333;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background: #1a73e8;
+  color: white;
+}
+
+.tab-button.inactive {
+  background: #f3f4f6;
+  color: #333;
+}
+
+/* Table container */
+.table-section {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Table header */
+.table-section h3 {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 12px 16px;
+  color: #666;
+  font-weight: normal;
+  background: #f9fafb;
+  border-bottom: 1px solid #eee;
+}
+
+td {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Action buttons */
+.make-admin-btn {
+  background: #1a73e8;
+  color: white;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.archive-btn {
+  background: #f59e0b;
+  color: white;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Role text */
+.role-text {
+  color: #666;
+}
+
+/* Count text */
+.user-count {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 16px;
 } 

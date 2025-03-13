@@ -92,34 +92,38 @@ const Dashboard = () => {
         </div>
 
         {/* Schedule List */}
-        <ul className="schedule-list">
-          {filteredSchedules.length > 0 ? (
-            filteredSchedules.map((schedule) => (
-              <li key={schedule.id} className={`schedule-item ${schedule.type.replace(/\s+/g, "-").toLowerCase()}`}>
-                <span className="tag">{schedule.type}</span>
-                <div className="schedule-details">
-                  <strong>{schedule.barangay}</strong>
-                  <p className="schedule-time">
-                    {schedule.date} at {schedule.timeFormatted || formatTime(schedule.time)}
-                  </p>
-                  <p className="put-out-note">
-                    Put out waste bags before {calculatePutOutTime(schedule.time)}
-                  </p>
-                </div>
-                <div className="schedule-status">
-                  <span className={`status-badge ${schedule.status}`}>
-                    {schedule.status || 'pending'}
-                  </span>
-                </div>
-              </li>
-            ))
-          ) : (
-            <p className="no-schedules">No schedules available.</p>
-          )}
-        </ul>
+        <div className="schedules-section">
+          <ul className="schedule-list">
+            {filteredSchedules.length > 0 ? (
+              filteredSchedules.map((schedule) => (
+                <li key={schedule.id} className={`schedule-item ${schedule.type.replace(/\s+/g, "-").toLowerCase()}`}>
+                  <span className="tag">{schedule.type}</span>
+                  <div className="schedule-details">
+                    <strong>{schedule.barangay}</strong>
+                    <p className="schedule-time">
+                      {schedule.date} at {schedule.timeFormatted || formatTime(schedule.time)}
+                    </p>
+                    <p className="put-out-note">
+                      Put out waste bags before {calculatePutOutTime(schedule.time)}
+                    </p>
+                  </div>
+                  <div className="schedule-status">
+                    <span className={`status-badge ${schedule.status}`}>
+                      {schedule.status || 'pending'}
+                    </span>
+                  </div>
+                </li>
+              ))
+            ) : (
+              <p className="no-schedules">No schedules available.</p>
+            )}
+          </ul>
+        </div>
 
-        {/* Calendar */}
-        <ScheduleCalendar schedules={schedules} />
+        {/* Calendar Section */}
+        <div className="calendar-section">
+          <ScheduleCalendar schedules={schedules} />
+        </div>
       </div>
     </div>
   );
