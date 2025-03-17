@@ -3,24 +3,25 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #f0f0f0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Waste Guide Main Container */
 .waste-guide-container {
   display: flex;
-  flex-direction: column; /* Stack children vertically */
-  height: 100vh; /* Fixed height so overflow is detected */
-  background-color: #f4f7fc; /* Soft background */
-  padding-left: 160px; /* Ensures content is not covered by sidebar */
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  margin-top: 20px; /* Create space from the top */  
   transition: padding-left 0.3s ease-in-out;
-  overflow-y: auto; /* Enable vertical scrolling */
-}
+} 
 
 /* Content Box */
-.waste-guide-content {
+.waste-guide-content {  
+  width: 100%;
   max-width: 1250px;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 0 auto; /* Center the content horizontally */
+  padding: 50px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -90,7 +91,7 @@ html, body {
   object-fit: cover;
 }
 
-/* New styles for the images container in the biodegradable section */
+/* Images container in the biodegradable section */
 .waste-guide-images {
   display: flex;
   gap: 10px;
@@ -103,16 +104,16 @@ html, body {
   object-fit: cover;
 }
 
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 1024px) {
   .waste-guide-container {
-    padding-left: 220px; /* Adjust for medium screens */
+    padding-left: 220px;
   }
 }
 
 @media (max-width: 768px) {
   .waste-guide-container {
-    padding-left: 0; /* Full width on mobile */
+    padding-left: 0;
   }
   
   .waste-guide-content {

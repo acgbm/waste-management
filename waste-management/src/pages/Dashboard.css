@@ -1,28 +1,45 @@
-/* Ensure html and body take full height */
-html, body {
-  height: 100%;
+/* Ensure html and body occupy full viewport height */
+body, html {
   margin: 0;
   padding: 0;
-}
-
-/* Dashboard Main Container */
-.dashboard-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #f4f7fc;
-  overflow-y: auto;
+  justify-content: center;
+  align-items: flex-start; /* Keep it aligned from the top */
+  background-color: #f0f0f0;
 }
 
-/* Content Box */
+.app-layout {
+  background-color: #f0f0f0;
+}
+.content {
+  background-color: #f0f0f0;
+}
+
+/* Center the dashboard container using flexbox */
+.dashboard-container {
+  position: relative;
+  width: 100%;
+  max-width: 1250px; /* Original max-width */
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Content Box styling remains as before */
 .dashboard-content {
-  max-width: 1250px;
-  margin: 20px auto;
+  width: 100%;
+  margin: 20px;
   padding: 20px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Title */
 .dashboard-content h2 {
@@ -184,6 +201,6 @@ html, body {
   }
 
   .status-badge {
-    align-self: flex-start;
+    align-self: flex-start;     
   }
 }
