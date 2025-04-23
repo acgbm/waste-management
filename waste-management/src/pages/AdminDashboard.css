@@ -1,457 +1,100 @@
-/* Admin Dashboard Main Container */
 .admin-dashboard-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #ffffff;
-  padding-left: 160px;
-  overflow-y: auto;
+  justify-content: center;
 }
 
-/* Content Box */
 .admin-dashboard-content {
-  padding: 20px 40px;
-  height: 100%;
+  max-width: 1000px;
+  width: 100%;
 }
 
-.admin-dashboard-content h2 {
-  color: #1D71F2;
+h2 {
+  text-align: center;
   margin-bottom: 20px;
+  color: #2d89f1;
 }
 
 .admin-tabs {
   display: flex;
-  gap: 10px;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
-.tab-buttons {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 24px;
-  width: 1000px;
-  margin: 0 auto 24px;
-}
-
 .tab-button {
-  flex: 1;
-  padding: 12px;
-  font-size: 14px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #eee;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  background: #f3f4f6;
-  color: #333;
 }
 
 .tab-button.active {
-  background: #1a73e8;
+  background-color: #007bff;
   color: white;
 }
 
-.tab-content {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
+.table-header {
+  margin-bottom: 10px;
+}
+
+.users-table table,
+.schedules-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.archive-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.archive-btn:hover {
+  background-color: #c82333;
+}
+
+.status-pending {
+  background-color: #ffc107;
+}
+
+.status-in-progress {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.status-completed {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-cancelled {
+  background-color: #eb1a13;
+  color: white;
+}
+
+select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: black; /* Ensure text is visible */
 }
 
 .loading {
   text-align: center;
-  padding: 20px;
-  color: #666;
-}
-
-/* Tables Container */
-.users-table,
-.schedules-table {
-  width: 100%;
-  overflow-x: auto;
-}
-
-/* Table Header */
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.table-header h3 {
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* Table Styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  min-width: 800px; /* Ensure minimum width for both tables */
-}
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-th {
-  background-color: #f8f9fa;
-  color: #333;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-tr:hover {
-  background-color: #f8f9fa;
-}
-
-/* Button Styles */
-.action-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.archive-btn,
-.promote-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 16px;
-  font-size: 12px;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.archive-btn {
-  background: #f59e0b;
-  color: white;
-  transition: background 0.3s ease;
-}
-
-.archive-btn:hover {
-  background: #d97706;
-}
-
-.promote-btn {
-  background: #1D71F2;
-  color: white;
-  transition: background 0.3s ease;
-}
-
-.promote-btn:hover {
-  background: #1a5fc8;
-}
-
-/* Status Select Styles */
-select {
-  padding: 8px 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  background: white;
-  min-width: 120px;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .admin-dashboard-container {
-    padding-left: 220px;
-  }
-}
-
-@media (max-width: 768px) {
-  .admin-dashboard-container {
-    padding-left: 0;
-  }
-
-  .admin-dashboard-content {
-    padding: 16px;
-  }
-
-  .users-table,
-  .schedules-table {
-    overflow-x: auto;
-  }
-
-  .table-header {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-
-  th, td {
-    min-width: 120px;
-  }
-}
-
-/* Table Header Sticky */
-thead {
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 1;
-}
-
-/* Status Colors */
-select[value="pending"] {
-  color: #ffc107;
-}
-
-select[value="in-progress"] {
-  color: #17a2b8;
-}
-
-select[value="completed"] {
-  color: #28a745;
-}
-
-/* Collection Schedules Table */
-.schedules-section {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
+  font-size: 18px;
   margin-top: 20px;
 }
-
-.schedules-section h3 {
-  color: #333;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.schedules-section table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.schedules-section th {
-  text-align: left;
-  padding: 12px 20px;
-  color: #666;
-  font-weight: normal;
-  border-bottom: 1px solid #eee;
-}
-
-/* Row styles based on waste type */
-tr.non-biodegradable {
-  background-color: #fff1f1;
-}
-
-tr.non-biodegradable td:first-child {
-  border-left: 4px solid #ff4d4d;
-}
-
-tr.recyclable {
-  background-color: #f0f7ff;
-}
-
-tr.recyclable td:first-child {
-  border-left: 4px solid #1a73e8;
-}
-
-tr.biodegradable {
-  background-color: #f0fff4;
-}
-
-tr.biodegradable td:first-child {
-  border-left: 4px solid #4CAF50;
-}
-
-/* Table cells */
-.schedules-section td {
-  padding: 16px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-/* Status dropdown */
-.schedules-section select {
-  padding: 8px 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  background: white;
-  color: #1a73e8;
-  font-size: 14px;
-  min-width: 120px;
-}
-
-/* Archive button */
-.schedules-section .archive-btn {
-  padding: 8px 16px;
-  background: #f59e0b;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-
-/* Ensure table container maintains width */
-.table-container {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  margin-top: 20px;
-  min-width: 1000px;
-}
-
-/* Table header styles */
-.table-container h3 {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Common table styles for both Users and Schedules */
-.table-container table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table-container th {
-  text-align: left;
-  padding: 12px 20px;
-  color: #666;
-  font-weight: normal;
-  border-bottom: 1px solid #eee;
-}
-
-.table-container td {
-  padding: 16px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-/* Common button styles */
-.action-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.archive-btn {
-  background: #f59e0b;
-  color: white;
-}
-
-/* Put-out time note */
-.put-out-time {
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
-}
-
-/* Main container */
-.admin-dashboard {
-  padding: 24px;
-}
-
-/* Title */
-.admin-dashboard h1 {
-  color: #1a73e8;
-  font-size: 20px;
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-/* Tab buttons */
-.tab-container {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 24px;
-}
-
-.tab-button {
-  flex: 1;
-  padding: 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 8px;
-  background: #f3f4f6;
-  color: #333;
-  cursor: pointer;
-}
-
-.tab-button.active {
-  background: #1a73e8;
-  color: white;
-}
-
-.tab-button.inactive {
-  background: #f3f4f6;
-  color: #333;
-}
-
-/* Table container */
-.table-section {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* Table header */
-.table-section h3 {
-  color: #333;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-/* Table styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th {
-  text-align: left;
-  padding: 12px 16px;
-  color: #666;
-  font-weight: normal;
-  background: #f9fafb;
-  border-bottom: 1px solid #eee;
-}
-
-td {
-  padding: 16px;
-  border-bottom: 1px solid #eee;
-}
-
-/* Action buttons */
-.make-admin-btn {
-  background: #1a73e8;
-  color: white;
-  padding: 6px 16px;
-  border: none;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  margin-right: 8px;
-}
-
-.archive-btn {
-  background: #f59e0b;
-  color: white;
-  padding: 6px 16px;
-  border: none;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-/* Role text */
-.role-text {
-  color: #666;
-}
-
-/* Count text */
-.user-count {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 16px;
-} 

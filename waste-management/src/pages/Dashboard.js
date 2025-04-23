@@ -105,7 +105,6 @@ const Dashboard = () => {
   <button onClick={() => setActiveSection("calendar")} className="nav-button right">&gt;</button>
 </div>
 
-
         {/* Container for Schedule */}
         {activeSection === "schedule" && (
           <div className="slider-controls">
@@ -147,5 +146,6 @@ const Dashboard = () => {
     </div>
   );
 };
+
 
 export default Dashboard;

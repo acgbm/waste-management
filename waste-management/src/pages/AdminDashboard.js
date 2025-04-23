@@ -16,13 +16,11 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      // Get all users first
       const querySnapshot = await getDocs(collection(db, "users"));
       const userData = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
-      console.log("Fetched users:", userData); // Debug log
       setUsers(userData);
       setLoading(false);
     } catch (error) {
@@ -31,7 +29,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // Add time format conversion function
   const formatTime = (time24) => {
     if (!time24) return '';
     const [hours, minutes] = time24.split(':');
@@ -49,7 +46,6 @@ const AdminDashboard = () => {
         ...doc.data(),
         location: doc.data().barangay || 'No location set'
       }));
-      console.log("Fetched schedules:", scheduleData);
       setSchedules(scheduleData);
     } catch (error) {
       console.error("Error fetching schedules:", error);
@@ -67,25 +63,6 @@ const AdminDashboard = () => {
       } catch (error) {
         console.error("Error archiving user:", error);
         alert("Failed to archive user");
-      }
-    }
-  };
-
-  const handlePromoteToAdmin = async (userId) => {
-    if (window.confirm("Are you sure you want to promote this user to admin?")) {
-      try {
-        await updateDoc(doc(db, "users", userId), {
-          role: "admin"
-        });
-        setUsers(users.map(user => 
-          user.id === userId 
-            ? { ...user, role: "admin" }
-            : user
-        ));
-        alert("User promoted to admin successfully!");
-      } catch (error) {
-        console.error("Error promoting user to admin:", error);
-        alert("Failed to promote user to admin");
       }
     }
   };
@@ -155,7 +132,6 @@ const AdminDashboard = () => {
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Address</th>
-                      <th>Role</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -167,17 +143,8 @@ const AdminDashboard = () => {
                           <td>{user.email}</td>
                           <td>{user.phone || 'N/A'}</td>
                           <td>{user.address || 'N/A'}</td>
-                          <td>{user.role || 'user'}</td>
                           <td>
                             <div className="action-buttons">
-                              {user.role !== 'admin' && (
-                                <button 
-                                  className="promote-btn"
-                                  onClick={() => handlePromoteToAdmin(user.id)}
-                                >
-                                  Make Admin
-                                </button>
-                              )}
                               <button 
                                 className="archive-btn"
                                 onClick={() => handleArchiveUser(user.id)}
@@ -190,7 +157,7 @@ const AdminDashboard = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="6" style={{ textAlign: 'center' }}>No users found</td>
+                        <td colSpan="5" style={{ textAlign: 'center' }}>No users found</td>
                       </tr>
                     )}
                   </tbody>
@@ -252,4 +219,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;

@@ -201,3 +201,43 @@ h2 {
     grid-template-columns: 1fr; /* 1 column for very small screens */
   }
 }
+/* Color code for different types of waste */
+.schedule-card.biodegradable .tag {
+  background-color: #27ae60; /* Green for biodegradable waste */
+}
+
+.schedule-card.non-biodegradable .tag {
+  background-color: #e62222; /* Orange for non-biodegradable waste */
+}
+
+.schedule-card.recyclable .tag {
+  background-color: #2980b9; /* Blue for recyclable waste */
+}
+/* Color code for filter buttons */
+.filters button.biodegradable {
+  background-color: #27ae60; /* Green for biodegradable waste */
+}
+
+.filters button.non-biodegradable {
+  background-color: #e67e22; /* Orange for non-biodegradable waste */
+}
+
+.filters button.recyclable {
+  background-color: #2980b9; /* Blue for recyclable waste */
+}
+
+/* Active state color for buttons */
+.filters button.active {
+  background-color: #45a049; /* Darker shade when active */
+}
+
+/* Reset styling for all buttons in filters */
+.filters button {
+  margin-right: 10px;
+  padding: 15px 30px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
