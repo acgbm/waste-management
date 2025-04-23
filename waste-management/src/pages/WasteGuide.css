@@ -1,122 +1,206 @@
-/* Ensure html and body take full height */
+/* Ensure html and body take full viewport dimensions without scrollbars */
 html, body {
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
   background-color: #f0f0f0;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow: hidden;
 }
 
-/* Waste Guide Main Container */
 .waste-guide-container {
+  width: 82vw;
+  height: 90vh;
+  margin: 5vh auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-left: 8px solid #34a853;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally */
-  margin-top: 20px; /* Create space from the top */  
-  transition: padding-left 0.3s ease-in-out;
-} 
+  align-items: center;
+  box-sizing: border-box;
+}
 
-/* Content Box */
-.waste-guide-content {  
+.waste-guide-content {
   width: 100%;
-  max-width: 1250px;
-  margin: 0 auto; /* Center the content horizontally */
-  padding: 50px;
+  height: calc(100% - 30px);
+  padding: 30px 20px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Title */
 .waste-guide-content h2 {
-  font-size: 26px;
-  color: #1D71F2;
-  margin-bottom: 10px;
+  font-size: 32px;
+  color: #1d71f2;
+  margin-bottom: 15px;
 }
 
 .waste-guide-content p {
-  font-size: 16px;
+  font-size: 18px;
   color: #555;
   margin-bottom: 20px;
 }
 
-/* Video Styling */
+.nav-buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.nav-button {
+  background-color: #1d71f2;
+  color: white;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button.left {
+  margin-right: 20px;
+}
+
+.waste-guide-section {
+  display: none;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.waste-guide-section.video-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-grow: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.waste-guide-section.all-waste-guide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-grow: 1;
+  /* Adding padding to create space for the inner containers if needed */
+  padding: 10px 20px;
+}
+
 .waste-guide-video {
   width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Waste Categories */
-.waste-category {
-  margin-bottom: 20px;
+.category-nav-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.category-nav-container-left {
+  /* Adjust width as needed */
+  width: 10%;
+}
+
+.category-nav-container-right {
+  /* Adjust width as needed */
+  width: 10%;
+}
+
+.waste-guide-category-content {
+  flex-grow: 1;
+  padding: 0 10px;
+}
+
+.category-nav-button {
+  background-color: rgba(29, 113, 242, 0.8);
+  color: white;
+  border: none;
+  width: 40px;           /* Fixed width for circle */
+  height: 40px;          /* Fixed height for circle */
+  border-radius: 50%;    /* 50% border radius makes the element a perfect circle */
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;         /* Use flex to center the content */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Waste Guide Category */
+.waste-guide-category {
+  width: 100%;
+  margin-top: 15px;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Biodegradable */
 .biodegradable {
   border-left: 5px solid #28a745;
   background: #e6f4ea;
 }
 
-/* Non-Biodegradable */
 .non-biodegradable {
   border-left: 5px solid #dc3545;
   background: #fbe6e9;
 }
 
-/* Recyclable */
 .recyclable {
   border-left: 5px solid #007bff;
   background: #e6f0fb;
 }
 
-/* Recyclable images styling */
+.waste-guide-images,
 .waste-guide-images-recycle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.waste-guide-images-recycle img {
-  max-width: 40%;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
-}
-
-/* Images container in the biodegradable section */
-.waste-guide-images {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-top: 20px;
 }
 
-.waste-guide-images img {
-  width: calc(33.33% - 6.67px); /* Approximately one-third minus the gap */
+.waste-guide-images img,
+.waste-guide-images-recycle img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
   border-radius: 8px;
-  object-fit: cover;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .waste-guide-container {
-    padding-left: 220px;
-  }
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
   .waste-guide-container {
-    padding-left: 0;
+    padding: 20px;
+    width: 95vw;
+    height: 95vh;
   }
-  
   .waste-guide-content {
-    width: 90%;
+    width: 100%;
+    padding: 20px 15px;
+  }
+  .waste-guide-category {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .category-nav-button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .category-nav-container-left,
+  .category-nav-container-right {
+    width: auto;
   }
 }

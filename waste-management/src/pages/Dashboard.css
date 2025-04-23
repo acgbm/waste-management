@@ -1,206 +1,203 @@
-/* Ensure html and body occupy full viewport height */
+/* Resetting margin and padding for the entire document */
 body, html {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Keep it aligned from the top */
-  background-color: #f0f0f0;
+  background-color: #F4F6F6;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box; /* Ensures padding and border are included in the width and height */
 }
 
-.app-layout {
-  background-color: #f0f0f0;
-}
-.content {
-  background-color: #f0f0f0;
-}
-
-/* Center the dashboard container using flexbox */
+/* Styling for the dashboard container */
 .dashboard-container {
-  position: relative;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 95vh;
   width: 100%;
-  max-width: 1250px; /* Original max-width */
-  margin-top: 20px;
   background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #4CAF50;
+  overflow: hidden; /* Prevent overflow outside of the dashboard */
 }
 
-/* Content Box styling remains as before */
+.calendar-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Changed from 5 to 3 */
+  gap: 20px;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Content inside the dashboard */
 .dashboard-content {
-  width: 100%;
-  margin: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Allow horizontal scrolling */
+  box-sizing: border-box;
+  overflow-y: hidden; /* Prevent vertical overflow */
 }
 
-
-/* Title */
-.dashboard-content h2 {
-  font-size: 26px;
-  color: #1D71F2;
-  margin-bottom: 10px;
-}
-
-.dashboard-content p {
-  font-size: 16px;
-  color: #555;
+/* Header styling */
+h2 {
+  font-size: 32px;
+  color: #4CAF50;
   margin-bottom: 20px;
 }
 
-/* Filters */
+/* Filter button styling */
 .filters {
   display: flex;
-  gap: 10px;
+  justify-content: flex-start;
   margin-bottom: 20px;
 }
 
 .filters button {
-  padding: 8px 16px;
+  margin-right: 10px;
+  padding: 15px 30px;
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  background: #f1f5f9;
-  color: #333;
-  border-radius: 20px;
-  font-size: 14px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s ease;
+  font-size: 16px;
 }
 
-.filters button.active,
-.filters button:hover {
-  background: #1D71F2;
+.filters button.active {
+  background-color: #45a049;
+}
+
+/* Slider container for the schedule cards */
+.slider-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Keep 5 columns */
+  gap: 30px;
+  padding: 20px;
+  overflow-y: auto; /* Add vertical scroll */
+  max-height: 500px; /* Adjust this to whatever height fits your design */
+  width: 100%;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  padding-right: 20px;
+}
+
+
+.slider-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.slider-container::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 20px; /* space at the top of the scrollbar */
+  margin-bottom: 20px; /* space at the bottom */
+}
+
+.slider-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Styling for individual schedule cards */
+.schedule-card {
+  background-color: #f4f4f4;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-card:hover {
+  transform: translateY(-15px);
+}
+
+/* Tag styling inside each card */
+.schedule-card .tag {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.schedule-details {
+  margin-bottom: 15px;
+}
+
+.schedule-status .status-badge {
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
   color: white;
 }
 
-/* Schedule List */
-.schedules-section {
-  margin-bottom: 20px;
-}
-
-.schedule-list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* Schedule Items */
-.schedule-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0;
-}
-
-/* Schedule Details */
-.schedule-details {
-  flex: 1;
-  margin: 0 15px;
-}
-
-.schedule-details strong {
-  display: block;
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 4px;
-}
-
-/* Type specific styles */
-.schedule-item.biodegradable {
-  border-left: 5px solid #28a745;
-  background: #e6f4ea;
-}
-
-.schedule-item.non-biodegradable {
-  border-left: 5px solid #dc3545;
-  background: #fbe6e9;
-}
-
-.schedule-item.recyclable {
-  border-left: 5px solid #007bff;
-  background: #e6f0fb;
-}
-
-/* Tags */
-.tag {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  min-width: 120px;
-  text-align: center;
-}
-
-/* Status Badge */
-.status-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
 .status-badge.pending {
-  background: #fff3cd;
-  color: #856404;
-}
-
-.status-badge.in-progress {
-  background: #cce5ff;
-  color: #004085;
+  background-color: #f39c12;
 }
 
 .status-badge.completed {
-  background: #d4edda;
-  color: #155724;
+  background-color: #27ae60;
 }
 
-/* Calendar Section */
-.calendar-section {
-  margin-top: 20px;
-  padding: 15px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.status-badge.cancelled {
+  background-color: #e74c3c;
 }
 
-/* Responsive */
+/* Navigation buttons wrapper */
+.nav-buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  gap: 20px; /* Added space between the left and right buttons */
+}
+
+/* Styling for the navigation buttons */
+.nav-button {
+  background-color: #4CAF50; /* green for eco theme */
+  color: white;
+  border: none;
+  padding: 8px 16px; /* Reduced padding to make buttons smaller */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px; /* Slightly smaller font */
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the navigation buttons */
+.nav-button:hover {
+  background-color: #45a049;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+  .slider-container {
+    grid-template-columns: repeat(5, 1fr); /* 5 columns for medium screens */
+  }
+}
+
 @media (max-width: 768px) {
-  .dashboard-content {
-    width: 90%;
-    margin: 10px auto;
-    padding: 15px;
+  .slider-container {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns for smaller screens */
   }
+}
 
-  .filters {
-    flex-wrap: wrap;
-  }
-
-  .schedule-item {
-    flex-direction: column;
-  }
-
-  .schedule-details {
-    margin: 10px 0;
-  }
-
-  .tag {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .status-badge {
-    align-self: flex-start;     
+@media (max-width: 480px) {
+  .slider-container {
+    grid-template-columns: 1fr; /* 1 column for very small screens */
   }
 }

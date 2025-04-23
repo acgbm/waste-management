@@ -289,12 +289,6 @@ tr.biodegradable td:first-child {
   cursor: pointer;
 }
 
-/* Container to ensure consistent width */
-.dashboard-container {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 /* Ensure table container maintains width */
 .table-container {
