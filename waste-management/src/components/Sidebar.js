@@ -32,29 +32,33 @@ const Sidebar = () => {
         <img src={logo} alt="Logo" className="logo" />
       </div>
       <ul className="menu">
-        {user?.isAdmin ? (
-          <>
-            <li>
-              <Link to="/admin">Admin Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/scheduling">Collection Scheduling</Link>
-            </li>
-            <li>
-              <Link to="/waste-guide">Waste Guide</Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/waste-guide">Waste Guide</Link>
-            </li>
-          </>
-        )}
-      </ul>
+  {user?.isAdmin ? (
+    <>
+      <li>
+        <Link to="/admin">Admin Dashboard</Link>
+      </li>
+      <li>
+        <Link to="/scheduling">Collection Scheduling</Link>
+      </li>
+      <li>
+        <Link to="/waste-guide">Waste Guide</Link>
+      </li>
+    </>
+  ) : (
+    <>
+      <li>
+        <Link to="/dashboard">Dashboard</Link>
+      </li>
+      <li>
+        <Link to="/waste-guide">Waste Guide</Link>
+      </li>
+      <li>
+        <Link to="/submit-waste">Submit Waste</Link> 
+      </li>
+    </>
+  )}
+</ul>
+
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
     </div>
   );

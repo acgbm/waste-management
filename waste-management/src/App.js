@@ -8,7 +8,9 @@ import WasteGuide from "./pages/WasteGuide";
 import Scheduling from "./pages/Scheduling";
 import Sidebar from "./components/Sidebar";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import WasteLog from "./pages/wastelog";
 import "./App.css";
+
 
 // Layout component to wrap protected routes
 const Layout = ({ children }) => {
@@ -101,6 +103,8 @@ function App() {
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/scheduling" element={<AdminRoute><Scheduling /></AdminRoute>} />
             <Route path="/waste-guide" element={<ProtectedRoute><WasteGuide /></ProtectedRoute>} />
+            <Route path="/submit-waste" element={<ProtectedRoute><WasteLog /></ProtectedRoute>} />
+
           </Routes>
         </Router>
       </div>
