@@ -1,13 +1,41 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent overall page scroll */
+}
+
+/* Container fills full height and centers content */
 .admin-dashboard-container {
-  padding: 20px;
+  height: 100vh;
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 .admin-dashboard-content {
-  max-width: 1000px;
   width: 100%;
+  max-width: 1000px;
+  height: 90vh; /* Use only 90% of viewport height */
+  overflow-y: auto; /* Enable vertical scroll if needed */
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  padding: 20px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.admin-dashboard-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-dashboard-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
 }
 
 h2 {
