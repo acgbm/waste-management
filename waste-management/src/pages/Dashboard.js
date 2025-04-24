@@ -144,7 +144,7 @@ const Dashboard = () => {
                   </div>
                 ))
               ) : (
-                <p className="no-schedules">No schedules available.</p>
+                <p className="no-schedules">No schedules available!</p>
               )}
             </div>
           </div>
