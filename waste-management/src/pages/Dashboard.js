@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("schedule");
   const sliderRef = useRef();
 
+  // 🧠 Convert 24-hour time to 12-hour format
   const formatTime = (time24) => {
     if (!time24) return '';
     const [hours, minutes] = time24.split(':');
@@ -19,6 +20,7 @@ const Dashboard = () => {
     return `${hour12}:${minutes} ${ampm}`;
   };
 
+  // 📦 Calculate when to put out trash (30 min earlier)
   const calculatePutOutTime = (time24) => {
     if (!time24) return '';
     const [hours, minutes] = time24.split(':');
@@ -37,22 +39,31 @@ const Dashboard = () => {
     return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
   };
 
+  // ✅ Check if schedule date is today or in the future
+  const isUpcoming = (dateString) => {
+    const today = new Date();
+    const scheduleDate = new Date(dateString + "T00:00:00");
+    return scheduleDate >= new Date(today.toDateString());
+  };
+
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "schedules"));
-        const scheduleData = querySnapshot.docs.map((doc) => {
-          let rawDate = doc.data().date;
-          const formattedDate = new Date(rawDate + "T00:00:00Z")
-            .toISOString()
-            .split("T")[0];
+        const scheduleData = querySnapshot.docs
+          .map((doc) => {
+            let rawDate = doc.data().date;
+            const formattedDate = new Date(rawDate + "T00:00:00Z")
+              .toISOString()
+              .split("T")[0];
 
-          return {
-            id: doc.id,
-            ...doc.data(),
-            date: formattedDate,
-          };
-        });
+            return {
+              id: doc.id,
+              ...doc.data(),
+              date: formattedDate,
+            };
+          })
+          .filter(schedule => isUpcoming(schedule.date)); // ⛔ Filter out past
 
         setSchedules(scheduleData);
       } catch (error) {
@@ -76,7 +87,10 @@ const Dashboard = () => {
   const filteredSchedules =
     filterType === "all"
       ? schedules
-      : schedules.filter((schedule) => schedule.type.toLowerCase() === filterType.toLowerCase());
+      : schedules.filter(
+          (schedule) =>
+            schedule.type.toLowerCase() === filterType.toLowerCase()
+        );
 
   return (
     <div className="dashboard-container">
@@ -84,7 +98,7 @@ const Dashboard = () => {
         <h2>Dashboard</h2>
         <p>Upcoming Waste Collection</p>
 
-        {/* Show Filters only for Schedule section */}
+        {/* Filters */}
         {activeSection === "schedule" && (
           <div className="filters">
             {["all", "biodegradable", "non-biodegradable", "recyclable"].map((type) => (
@@ -99,13 +113,13 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Navigation for next and back */}
+        {/* Nav Buttons */}
         <div className="nav-buttons-wrapper">
-  <button onClick={() => setActiveSection("schedule")} className="nav-button left">&lt;</button>
-  <button onClick={() => setActiveSection("calendar")} className="nav-button right">&gt;</button>
-</div>
+          <button onClick={() => setActiveSection("schedule")} className="nav-button left">&lt;</button>
+          <button onClick={() => setActiveSection("calendar")} className="nav-button right">&gt;</button>
+        </div>
 
-        {/* Container for Schedule */}
+        {/* Schedule Section */}
         {activeSection === "schedule" && (
           <div className="slider-controls">
             <div className="slider-container" ref={sliderRef}>
@@ -146,6 +160,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
 
 export default Dashboard;
