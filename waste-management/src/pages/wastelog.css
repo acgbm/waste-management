@@ -1,64 +1,152 @@
-.waste-log-wrapper {
+.wastelog {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding-left: 250px; /* Adjust if your sidebar width is different */
-  background-color: #f5f6fa;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  color: #000; /* Makes default text black */
 }
 
-.waste-log-card {
-  background-color: #fff;
+.wastelog__results * {
+  color: #000 !important;
+}
+
+.wastelog__form-section {
+  flex: 1;
+  background: white;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  color: #000;
+  height: 100%;
 }
 
-.waste-log-card h2 {
-  text-align: center;
+.wastelog__title {
+  font-size: 1.75rem;
+  color: #2e7d32;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.wastelog__subtitle {
+  color: #000;
   margin-bottom: 1.5rem;
-  color: #222;
-  font-family: "Poppins", sans-serif;
 }
 
-form {
+.wastelog__input-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.input {
-  padding: 0.75rem;
+.wastelog__input-group label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #000;
+}
+
+.wastelog__input-group input {
+  padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  font-family: "Poppins", sans-serif;
-}
-
-.input::placeholder {
-  font-style: italic;
-  color: #888;
-}
-
-.submit-btn {
-  background-color: #ffd400;
   color: #000;
-  padding: 0.75rem;
+}
+
+.wastelog__button {
+  background-color: #4caf50;
+  color: white;
   border: none;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
-  font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 1rem;
 }
 
-.submit-btn:hover {
-  background-color: #e6be00;
+.wastelog__button:hover {
+  background-color: #388e3c;
 }
 
-.submit-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.wastelog__results {
+  background-color: #e8f5e9;
+  border-left: 4px solid #66bb6a;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  color: #000;
+}
+
+.wastelog__results h3 {
+  margin-top: 0;
+  color: #2e7d32;
+}
+
+.wastelog__tips {
+  margin-top: 2rem;
+  color: #000;
+}
+
+.wastelog__tips ul {
+  padding-left: 1.5rem;
+}
+
+.wastelog__history-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #000;
+}
+
+.wastelog__history-section {
+  flex: 2; /* Give it more space than form section */
+  padding: 2rem;
+  max-width: none; /* Allow it to grow naturally */
+  min-width: 700px; /* Optional: increase min width */
+  color: #000;
+}
+
+.wastelog__history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* wider cards */
+  gap: 1rem;
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  padding-right: 0.5rem;
+}
+
+.wastelog__history-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.wastelog__history-grid::-webkit-scrollbar-thumb {
+  background-color: #a5d6a7;
+  border-radius: 4px;
+}
+
+.wastelog__history-grid::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.wastelog__history-card {
+  background-color: white;
+  border-left: 4px solid #4caf50;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
+  color: #000;
+}
+
+.wastelog__history-card p {
+  margin: 0.3rem 0;
+  color: #000;
+}
+
+.wastelog__error {
+  color: red;
+  margin-top: 1rem;
 }

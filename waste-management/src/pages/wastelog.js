@@ -1,105 +1,134 @@
-import React, { useState, useRef } from "react";
-import { db, storage } from "../firebaseConfig.js";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import "./wastelog.css"; // Make sure this points to your actual CSS file
+import React, { useState, useEffect } from 'react';
+import { db, auth } from '../firebaseConfig';
+import { collection, addDoc, query, orderBy, getDocs } from 'firebase/firestore';
+import './wastelog.css';
 
-const WasteLog = () => {
-  const [form, setForm] = useState({
-    date: "",
-    type: "",
-    weight: "",
-    image: null,
-  });
-  const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef(null); // to reset file input manually
+const EcoImpactTracker = () => {
+  const [paper, setPaper] = useState(0);
+  const [plastic, setPlastic] = useState(0);
+  const [foodWaste, setFoodWaste] = useState(0);
+  const [ecoImpact, setEcoImpact] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { date, type, weight, image } = form;
-    if (!date || !type || !weight || !image) return alert("Fill all fields");
-
-    setLoading(true);
+  const fetchHistory = async () => {
     try {
-      const imgRef = ref(storage, `wasteProofs/${Date.now()}_${image.name}`);
-      await uploadBytes(imgRef, image);
-      const imageUrl = await getDownloadURL(imgRef);
-
-      await addDoc(collection(db, "wasteLogs"), {
-        date,
-        type,
-        weight: parseFloat(weight),
-        imageUrl,
-        status: "pending",
-        createdAt: Timestamp.now(),
-      });
-
-      alert("Waste log submitted!");
-      setForm({ date: "", type: "", weight: "", image: null });
-      fileInputRef.current.value = null; // reset file input
-    } catch (err) {
-      console.error(err);
-      alert("Error submitting log.");
+      const q = query(collection(db, "wastelog"), orderBy("timestamp", "desc"));
+      const querySnapshot = await getDocs(q);
+      const historyData = querySnapshot.docs.map(doc => doc.data());
+      setHistory(historyData);
+    } catch (error) {
+      setError("Error fetching history: " + error.message);
     }
-    setLoading(false);
   };
+
+  const calculateEcoImpact = async () => {
+    const treesSaved = paper * 17;
+    const co2Reduced = plastic * 3.5;
+    const waterSaved = plastic * 3.5;
+
+    setEcoImpact({ treesSaved, co2Reduced, waterSaved });
+
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        await addDoc(collection(db, "wastelog"), {
+          userId: user.uid,
+          paper,
+          plastic,
+          foodWaste,
+          treesSaved,
+          co2Reduced,
+          waterSaved,
+          timestamp: new Date(),
+        });
+        fetchHistory();
+      }
+    } catch (error) {
+      setError("Error saving your data: " + error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
 
   return (
-    <div className="waste-form-container">
-      <h2>Submit Waste Log</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="form-control"
-          type="date"
-          name="date"
-          value={form.date}
-          onChange={handleChange}
-          required
-        />
-        <select
-          className="form-control"
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Waste Type</option>
-          <option value="Recyclable">♻Recyclable</option>
-          <option value="Biodegradable">🍃Biodegradable</option>
-          <option value="Residual">🗑Non-Biodegradable</option>
-        </select>
-        <input
-          className="form-control"
-          type="number"
-          name="weight"
-          value={form.weight}
-          onChange={handleChange}
-          placeholder="Weight (kg)"
-          required
-        />
-        <input
-          className="form-control"
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          ref={fileInputRef}
-          required
-        />
-        <button type="submit" className="submit-button" disabled={loading}>
-          {loading ? "Submitting..." : "Submit"}
+    <div className="wastelog">
+      <div className="wastelog__form-section">
+        <h2 className="wastelog__title">Eco-Impact Tracker</h2>
+        <p className="wastelog__subtitle">Track your recycling and waste reduction impact!</p>
+
+        <div className="wastelog__input-group">
+          <label>Recycled Paper (kg):</label>
+          <input
+            type="number"
+            value={paper}
+            onChange={(e) => setPaper(e.target.value)}
+          />
+        </div>
+
+        <div className="wastelog__input-group">
+          <label>Recycled Plastic (kg):</label>
+          <input
+            type="number"
+            value={plastic}
+            onChange={(e) => setPlastic(e.target.value)}
+          />
+        </div>
+
+        <div className="wastelog__input-group">
+          <label>Composted Food Waste (kg):</label>
+          <input
+            type="number"
+            value={foodWaste}
+            onChange={(e) => setFoodWaste(e.target.value)}
+          />
+        </div>
+
+        <button className="wastelog__button" onClick={calculateEcoImpact}>
+          Calculate My Impact
         </button>
-      </form>
+
+        {ecoImpact && (
+          <div className="wastelog__results">
+            <h3>Your Eco-Impact:</h3>
+            <p>🌳 Trees Saved: {ecoImpact.treesSaved}</p>
+            <p>🌍 CO₂ Reduced (kg): {ecoImpact.co2Reduced}</p>
+            <p>💧 Water Saved (liters): {ecoImpact.waterSaved}</p>
+          </div>
+        )}
+
+        <div className="wastelog__tips">
+          <h4>Eco Tips:</h4>
+          <ul>
+            <li>Consider reducing your single-use plastics!</li>
+            <li>Composting can reduce your food waste impact significantly.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="wastelog__history-section">
+        <h3>Impact History</h3>
+        {history.length === 0 ? (
+          <p>No recorded impacts yet.</p>
+        ) : (
+          <div className="wastelog__history-grid">
+            {history.map((item, index) => (
+              <div className="wastelog__history-card" key={index}>
+                <p><strong>Impact recorded at:</strong> {new Date(item.timestamp.seconds * 1000).toLocaleString()}</p>
+                <p>🌳 <strong>Trees Saved:</strong> {item.treesSaved}</p>
+                <p>🌍 <strong>CO₂ Reduced (kg):</strong> {item.co2Reduced}</p>
+                <p>💧 <strong>Water Saved (liters):</strong> {item.waterSaved}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {error && <p className="wastelog__error">{error}</p>}
     </div>
   );
 };
 
-export default WasteLog;
+export default EcoImpactTracker;
