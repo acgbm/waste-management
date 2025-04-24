@@ -7,13 +7,14 @@ import AdminDashboard from "./pages/AdminDashboard";
 import WasteGuide from "./pages/WasteGuide";
 import Scheduling from "./pages/Scheduling";
 import Sidebar from "./components/Sidebar";
+import SmartWaste from "./pages/SmartWaste";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import WasteLog from "./pages/wastelog";
 import "./App.css";
 
 
 // Layout component to wrap protected routes
-const Layout = ({ children }) => {
+const Layout = ({ children }) => {  
   return (
     <div className="app-layout">
       <Sidebar />
@@ -104,6 +105,9 @@ function App() {
             <Route path="/scheduling" element={<AdminRoute><Scheduling /></AdminRoute>} />
             <Route path="/waste-guide" element={<ProtectedRoute><WasteGuide /></ProtectedRoute>} />
             <Route path="/submit-waste" element={<ProtectedRoute><WasteLog /></ProtectedRoute>} />
+            <Route path="/smart-waste" element={<ProtectedRoute><SmartWaste /></ProtectedRoute>} />
+
+            {/* Redirect to login if no match */}
 
           </Routes>
         </Router>

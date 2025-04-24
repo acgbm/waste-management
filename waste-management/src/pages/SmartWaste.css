@@ -1,0 +1,193 @@
+/* SmartWaste.css - EcoTrack Enhanced Theme */
+
+/* General container styling */
+.smart-waste-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #e8f5e9, #ffffff);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 100, 0, 0.08);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    max-height: 90vh; /* Limit the height */
+    overflow: hidden; /* Hide overflow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Prevent container from overflowing */
+}
+
+  
+  .smart-waste-container:hover {
+    transform: scale(1.01);
+  }
+  
+  h1 {
+    font-size: 2.75rem;
+    color: #2e7d32;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+  }
+  
+  p {
+    font-size: 1.15rem;
+    color: #444;
+    margin-bottom: 25px;
+    line-height: 1.6;
+  }
+  
+  /* Upload section */
+  .upload-section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px dashed #81c784;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: border-color 0.3s ease;
+  }
+  
+  .upload-section:hover {
+    border-color: #388e3c;
+  }
+  
+  input[type="file"] {
+    font-size: 1rem;
+    padding: 12px 16px;
+    cursor: pointer;
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    color: #2e7d32;
+    transition: background-color 0.2s ease;
+  }
+  
+  input[type="file"]:hover {
+    background-color: #c8e6c9;
+  }
+  
+  .upload-section img {
+    margin-top: 20px;
+    border-radius: 12px;
+    max-width: 100%;
+    max-height: 250px; /* Limit max height for the image */
+    object-fit: contain; /* Maintain aspect ratio */
+    border: 2px solid #c8e6c9;
+}
+
+/* Prevent the image from causing the container to expand too much */
+.smart-waste-container > .upload-section {
+    overflow: hidden; /* Prevent image overflow */
+    text-overflow: ellipsis; /* Ensures text doesn't overflow */
+}
+  
+  /* Focus effect */
+  .upload-section input[type="file"]:focus {
+    outline: none;
+    border: 2px solid #4CAF50;
+  }
+  
+  /* Loading state */
+  .loading {
+    font-size: 1.25rem;
+    color: #ff9800;
+    margin-top: 20px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+/* Parent must be relative to position mascot absolutely */
+.smart-waste-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px;
+    gap: 40px;
+  }
+  
+  .left-column {
+    flex: 1;
+    max-width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .right-column {
+    flex: 2;
+    max-width: 70%;
+  }
+  
+  /* Mascot section updated */
+  .mascot-image-box {
+    text-align: center;
+  }
+  
+  .mascot-image-box img {
+    max-width: 320px;
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .mascot-tip {
+    background-color: #e8f5e9;
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #388E3C;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+  }
+  
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1 }
+    50% { opacity: 0.5 }
+  } 
+  
+  /* Result output */
+  .result {
+    margin-top: 30px;
+  }
+  
+  .result h2 {
+    font-size: 2rem;
+    color: #2e7d32;
+    background-color: #e0f2f1;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+  
+  /* Eco Tips Box */
+  .eco-tips {
+    margin-top: 40px;
+    background-color: #f1f8e9;
+    padding: 20px;
+    border-left: 6px solid #66bb6a;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 2px 6px rgba(0, 128, 0, 0.08);
+  }
+  
+  .eco-tips h3 {
+    font-size: 1.75rem;
+    color: #388E3C;
+    margin-bottom: 10px;
+  }
+  
+  .eco-tips p {
+    font-size: 1.1rem;
+    color: #2e7d32;
+    line-height: 1.6;   
+  }
+  
