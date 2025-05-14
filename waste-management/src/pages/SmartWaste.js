@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as tf from '@tensorflow/tfjs';
-import '@tensorflow-models/mobilenet'; // Import MobileNet model
+import '@tensorflow-models/mobilenet';
 import './SmartWaste.css';
 
-// Function to load the model (MobileNet)
 const loadModel = async () => {
   try {
-    const model = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_1.0_224/model.json');
+    const model = await tf.loadLayersModel(
+      'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_1.0_224/model.json'
+    );
     return model;
   } catch (error) {
     console.error("Error loading model:", error);
@@ -18,9 +19,13 @@ function SmartWaste() {
   const [image, setImage] = useState(null);
   const [prediction, setPrediction] = useState('');
   const [loading, setLoading] = useState(false);
-  const [model, setModel] = useState(null); // Model state
+  const [model, setModel] = useState(null);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // Load MobileNet model once when the component mounts
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
   useEffect(() => {
     const loadMobileNet = async () => {
       setLoading(true);
@@ -36,99 +41,167 @@ function SmartWaste() {
     loadMobileNet();
   }, []);
 
-  // Function to handle image upload
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files[0];
-
     if (file) {
-      // Create a temporary object URL for the uploaded file
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
-
-      const img = new Image();
-      img.src = imageUrl;
-      img.onload = async () => {
-        setLoading(true);
-        try {
-          // Make a prediction once the image is loaded
-          const prediction = await classifyImage(img);
-          setPrediction(prediction);
-        } catch (error) {
-          console.error('Error during image classification:', error);
-          setPrediction('Error classifying image. Please try again.');
-        }
-        setLoading(false);
-      };
-    } else {
-      // Clear image if user cancels upload
-      setImage(null);
-      setPrediction('');
+      classify(imageUrl);
     }
   };
 
-  // Function to classify the image
-  const classifyImage = async (image) => {
-    if (model) {
-      // Preprocess the image to fit the model input size (224x224)
-      const tensor = tf.browser.fromPixels(image)
-        .resizeBilinear([224, 224])  // Resize to 224x224 (expected input for MobileNet)
-        .expandDims(0)  // Add batch dimension
-        .toFloat()
-        .div(tf.scalar(255));  // Normalize image
-
-      // Get predictions from the model
-      const predictions = await model.predict(tensor).data();
-
-      // Find the index of the highest probability
-      const maxPredictionIndex = predictions.indexOf(Math.max(...predictions));
-
-      // Map the top prediction index to your categories (Recyclable, Biodegradable, Non-biodegradable)
-      const mappedLabels = ['Biodegradable', 'Non-biodegradable', 'Recyclable'];
-      const predictionResult = mappedLabels[maxPredictionIndex % mappedLabels.length];
-
-      // Implement a threshold (50% confidence, for example)
-      const threshold = 0.5;
-      if (Math.max(...predictions) < threshold) {
-        return 'Uncertain. Please try another image.';
+  const classify = (imageUrl) => {
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = async () => {
+      setLoading(true);
+      try {
+        const result = await classifyImage(img);
+        setPrediction(result);
+      } catch (err) {
+        console.error('Classification failed:', err);
+        setPrediction('Error classifying image.');
       }
+      setLoading(false);
+      setShowModal(true); // Show modal after prediction
+    };
+  };
 
-      return `${predictionResult} (${Math.round(Math.max(...predictions) * 100)}%)`;
+  const classifyImage = async (image) => {
+    if (!model) return 'Model not loaded.';
+
+    const tensor = tf.browser.fromPixels(image)
+      .resizeBilinear([224, 224])
+      .expandDims(0)
+      .toFloat()
+      .div(tf.scalar(255));
+
+    const predictions = await model.predict(tensor).data();
+    const maxIdx = predictions.indexOf(Math.max(...predictions));
+
+    const labels = ['Biodegradable', 'Non-biodegradable', 'Recyclable'];
+    const result = labels[maxIdx % labels.length];
+
+    const threshold = 0.5;
+    if (Math.max(...predictions) < threshold) {
+      return 'Uncertain. Try a clearer image.';
     }
-    return 'Error: Model not loaded yet.';
+
+    return `${result} (${Math.round(Math.max(...predictions) * 100)}%)`;
+  };
+
+  const startCamera = async () => {
+    setCameraOpen(true);
+    setPrediction('');
+    setImage(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.error('Camera access denied:', err);
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current?.srcObject) {
+      videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+    setCameraOpen(false);
+  };
+
+  const captureImage = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+
+    if (video && canvas) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = 224;
+      canvas.height = 224;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      setImage(dataUrl);
+      classify(dataUrl);
+      stopCamera();
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false); // Close the modal
+  };
+
+  const captureAgain = () => {
+    setPrediction(''); // Reset prediction
+    setImage(null); // Reset image
+    setShowModal(false); // Close modal to allow re-capture
+    startCamera(); // Restart camera
   };
 
   return (
     <div className="smart-waste-wrapper">
-      <div className="left-column">
+      <div className="mascot-column">
         <div className="mascot-image-box">
           <img src="/mascot.jpg" alt="Eco Mascot" />
           <p className="mascot-tip">"Keep it clean, keep it green!"</p>
         </div>
       </div>
 
-      <div className="right-column">
+      <div className="main-column">
         <div className="smart-waste-container">
           <h1>Smart Waste Segregation</h1>
-          <p>Upload a photo of your trash, and we’ll tell you which bin to use.</p>
+          <p>Upload a photo or use your camera to identify the waste type.</p>
 
-          <div className="upload-section">
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-            {image && <img src={image} alt="Uploaded trash" width="200" />}
-            {loading && <p className="loading">Classifying...</p>}
+          <div className="input-section-row">
+            {/* File Upload Section */}
+            <div className="upload-section">
+              <h2>Upload Your Waste Image</h2>
+              <input type="file" accept="image/*" onChange={handleImageUpload} />
+            </div>
+
+            {/* Camera Section */}
+            <div className="camera-section-wrapper">
+              <h2 className="camera-section-title">Or Capture Using Camera</h2>
+              {!cameraOpen ? (
+                <button onClick={startCamera}>Open Camera</button>
+              ) : (
+                <div className="camera-section">
+                  <video ref={videoRef} autoPlay playsInline width="300" />
+                  <div className="camera-buttons">
+                    <button onClick={captureImage}>Capture</button>
+                    <button onClick={stopCamera}>Cancel</button>
+                  </div>
+                  <canvas ref={canvasRef} style={{ display: 'none' }} />
+                </div>
+              )}
+            </div>
           </div>
 
-          {prediction && (
-            <div className="result">
-              <h2>Suggested Bin: {prediction}</h2>
+          {image && (
+            <div className="preview-image">
+              <img src={image} alt="Preview" width="250" />
             </div>
           )}
 
-          <div className="eco-tips">
-            <h3>Eco Tips:</h3>
-            <p>Make sure to always segregate your recyclables properly to help the environment!</p>
-          </div>
+          {loading && <p className="loading">Classifying...</p>}
         </div>
       </div>
+
+      {/* Modal for Result */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Prediction Result</h2>
+            <p>{prediction}</p>
+            {prediction === 'Uncertain. Try a clearer image.' && (
+              <button onClick={captureAgain} className="capture-again-btn">Capture Again</button>
+            )}
+            <button onClick={closeModal} className="modal-close-btn">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -71,6 +71,9 @@ const Sidebar = () => {
               <img src={guideIcon} alt="Waste Guidde Icon" className="menu-icon" />
               Waste Guide</Link>
             </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
           </>
         )}
       </ul>
