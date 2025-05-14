@@ -58,6 +58,9 @@ const Sidebar = () => {
             <li>
               <Link to="/waste-guide">Waste Guide</Link>
             </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
           </>
         )}
       </ul>

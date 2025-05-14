@@ -150,3 +150,43 @@
   color: red;
   margin-top: 1rem;
 }
+
+@media (max-width: 1100px) {
+  .wastelog {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .wastelog__form-section, .wastelog__history-section {
+    max-width: 100%;
+    min-width: 0;
+    padding: 1rem;
+  }
+  .wastelog__history-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 700px) {
+  .wastelog {
+    padding: 0.5rem;
+    font-size: 15px;
+  }
+  .wastelog__form-section, .wastelog__history-section {
+    padding: 0.5rem;
+  }
+  .wastelog__history-grid {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    max-height: 250px;
+  }
+  .wastelog__button {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.95rem;
+  }
+  .wastelog__title {
+    font-size: 1.1rem;
+  }
+}
