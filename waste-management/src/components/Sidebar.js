@@ -34,7 +34,9 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="logo-container">
+      <Link to="/profile">
         <img src={logo} alt="Logo" className="logo" />
+        </Link>
       </div>
       <ul className="menu">
         {user?.isAdmin ? (
@@ -68,11 +70,8 @@ const Sidebar = () => {
             </li>
             <li>
               <Link to="/waste-guide">
-              <img src={guideIcon} alt="Waste Guidde Icon" className="menu-icon" />
+              <img src={guideIcon} alt="Waste Guide Icon" className="menu-icon" />
               Waste Guide</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
             </li>
           </>
         )}
