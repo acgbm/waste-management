@@ -95,30 +95,31 @@ table td {
 }
 
 .status-pending {
-  background-color: #ffc107;
+  background-color: #eedf59; /* Lighter yellow for pending */
+  color: #000000; /* Dark gray for readability */
 }
 
 .status-in-progress {
-  background-color: #17a2b8;
-  color: white;
+  background-color: #2da8bb;
+  color: rgb(0, 0, 0);
 }
 
 .status-completed {
-  background-color: #28a745;
-  color: white;
+  background-color: #4fc96b;
+  color: rgb(0, 0, 0);
 }
 
 .status-cancelled {
-  background-color: #eb1a13;
-  color: white;
+  background-color: #ca3833;
+  color: rgb(2, 0, 0);
 }
 
 select {
   padding: 5px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  background-color: white;
-  color: black; /* Ensure text is visible */
+  color: black;
+  font-weight: bold; /* Makes the text stand out more */
 }
 
 .loading {
