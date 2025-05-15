@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { db } from '../firebaseConfig';
+import { db, supabase } from '../firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import './Profile.css';
 
@@ -11,6 +11,7 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -23,11 +24,10 @@ const Profile = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Only set the form state when NOT in edit mode
     if (!editMode && user?.uid) {
       setLoading(true);
       getDoc(doc(db, 'users', user.uid))
-        .then(docSnap => {
+        .then((docSnap) => {
           if (docSnap.exists()) {
             setProfile(docSnap.data());
             setForm({
@@ -43,7 +43,6 @@ const Profile = () => {
         .catch(() => setError('Failed to fetch profile.'))
         .finally(() => setLoading(false));
     }
-    // eslint-disable-next-line
   }, [user, editMode]);
 
   const handleChange = (e) => {
@@ -85,15 +84,52 @@ const Profile = () => {
         lastName: form.lastName,
         phone: form.phone,
         address: form.address,
+        photoURL: form.photoURL,
       });
       setSuccess('Profile updated successfully!');
       setEditMode(false);
       setProfile((prev) => ({ ...prev, ...form }));
-      setForm((prev) => ({ ...prev }));
     } catch (err) {
+      console.error(err);
       setError('Failed to update profile.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const fileExt = file.name.split('.').pop();
+    const filePath = `${user.uid}-${Date.now()}.${fileExt}`;
+
+    setUploading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const { data, error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: urlData } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      const imageUrl = urlData.publicUrl;
+      setForm((prev) => ({ ...prev, photoURL: imageUrl }));
+      setSuccess('Image uploaded successfully!');
+    } catch (error) {
+      console.error(error);
+      setError('Image upload failed.');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -104,26 +140,31 @@ const Profile = () => {
     <div className="profile-container">
       <div className="profile-card">
         <h2 style={{ textAlign: 'center', marginBottom: 8 }}>Profile</h2>
-        <div style={{ textAlign: 'center', fontSize: 20, color: '#1d4ed8', fontWeight: 600, marginBottom: 16 }}>
-          {form.firstName ? `Welcome, ${form.firstName}!` : 'Welcome!'}
-        </div>
-        {/* Avatar Section (display only) */}
         <div className="profile-avatar-section">
-          <div className="avatar-wrapper">
-            <img
-              src={form.photoURL || DEFAULT_AVATAR}
-              alt="Profile"
-              className="profile-avatar"
-            />
+            <div className="avatar-upload-row">
+              <img
+                src={form.photoURL || DEFAULT_AVATAR}
+                alt="Profile"
+                className="profile-avatar"
+              />
+              {editMode && (
+                <div className="upload-input-wrapper">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                  />
+                  {uploading && <div>Uploading...</div>}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+
         <form
           className="profile-form"
-          onSubmit={e => {
-            console.log('form submitted');
-            handleSave(e);
-          }}
-          onKeyDown={e => {
+          onSubmit={handleSave}
+          onKeyDown={(e) => {
             if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
               e.preventDefault();
             }
@@ -132,11 +173,23 @@ const Profile = () => {
           <div className="form-row">
             <div className="form-group">
               <label>First Name *</label>
-              <input name="firstName" value={form.firstName} onChange={handleChange} disabled={!editMode} required />
+              <input
+                name="firstName"
+                value={form.firstName}
+                onChange={handleChange}
+                disabled={!editMode}
+                required
+              />
             </div>
             <div className="form-group">
               <label>Last Name *</label>
-              <input name="lastName" value={form.lastName} onChange={handleChange} disabled={!editMode} required />
+              <input
+                name="lastName"
+                value={form.lastName}
+                onChange={handleChange}
+                disabled={!editMode}
+                required
+              />
             </div>
           </div>
           <div className="form-row">
@@ -146,34 +199,47 @@ const Profile = () => {
             </div>
             <div className="form-group">
               <label>Mobile Number *</label>
-              <input name="phone" value={form.phone} onChange={handleChange} disabled={!editMode} required />
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                disabled={!editMode}
+                required
+              />
             </div>
           </div>
           <div className="form-row">
             <div className="form-group" style={{ width: '100%' }}>
               <label>Residential Address</label>
-              <textarea name="address" value={form.address} onChange={handleChange} disabled={!editMode} />
+              <textarea
+                name="address"
+                value={form.address}
+                onChange={handleChange}
+                disabled={!editMode}
+              />
             </div>
           </div>
-          {!editMode && error && <div className="error-message">{error}</div>}
-          {!editMode && success && <div className="success-message">{success}</div>}
+          {error && <div className="error-message">{error}</div>}
+          {success && <div className="success-message">{success}</div>}
           <div className="form-actions">
             {editMode && (
               <>
-                <button
-                  type="submit"
-                  className="save-btn"
-                  disabled={loading}
-                  onClick={() => console.log('Save button clicked')}
-                >
+                <button type="submit" className="save-btn" disabled={loading}>
                   {loading ? 'Saving...' : 'Save Changes'}
                 </button>
-                <button type="button" className="cancel-btn" onClick={handleCancel} disabled={loading}>Cancel</button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={handleCancel}
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
               </>
             )}
           </div>
         </form>
-        {/* Edit Profile button at the bottom, outside the form */}
+
         {!editMode && (
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
             <button type="button" className="edit-btn" onClick={handleEdit}>
@@ -186,4 +252,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;
