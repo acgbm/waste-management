@@ -114,10 +114,11 @@ const Dashboard = () => {
         )}
 
         {/* Nav Buttons */}
-        <div className="nav-buttons-wrapper">
-          <button onClick={() => setActiveSection("schedule")} className="nav-button left">&lt;</button>
-          <button onClick={() => setActiveSection("calendar")} className="nav-button right">&gt;</button>
-        </div>
+<div className="nav-buttons-wrapper">
+  <button onClick={() => setActiveSection("schedule")} className="nav-button left">&lt;</button>
+  <button onClick={() => setActiveSection("calendar")} className="nav-button right">&gt;</button>
+</div>
+
 
         {/* Schedule Section */}
         {activeSection === "schedule" && (

@@ -11,92 +11,91 @@
     box-shadow: 0 8px 20px rgba(0, 100, 0, 0.08);
     text-align: center;
     transition: all 0.3s ease-in-out;
-    max-height: 90vh; /* Limit the height */
-    overflow: hidden; /* Hide overflow */
+    height: auto;
+    overflow: visible;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Prevent container from overflowing */
+    justify-content: space-between;
+    scroll-behavior: smooth;
 }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 500px;
-  width: 80%;
-}
-
-.modal-close-btn {
-  background-color: #388e3c;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.modal-close-btn:hover {
-  background-color: #2c6c2f;
-}
-
-.preview-image {
-  margin-top: 1.5rem;
-  border: 2px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 8px;
-  max-width: 250px;
-}
-  
-  .smart-waste-container:hover {
+/* Hover effect */
+.smart-waste-container:hover {
     transform: scale(1.01);
-  }
-  
-  h1 {
+}
+
+/* Headings and text */
+h1 {
     font-size: 2.75rem;
     color: #2e7d32;
     margin-bottom: 15px;
     letter-spacing: 1px;
-  }
-  
-  p {
+}
+
+p {
     font-size: 1.15rem;
     color: #444;
     margin-bottom: 25px;
     line-height: 1.6;
-  }
-  
-.upload-section {
-  background-color: #ffffff;
-  padding: 25px;
-  border-radius: 12px;
-  border: 2px dashed #81c784;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: border-color 0.3s ease;
-  margin-bottom: 30px; /* Add spacing below this section */
 }
-  
-  .upload-section:hover {
+
+/* Modal styling */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 80%;
+}
+
+.modal-close-btn {
+    background-color: #388e3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background-color: #2c6c2f;
+}
+
+/* Upload Section */
+.upload-section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px dashed #81c784;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: border-color 0.3s ease;
+    margin-bottom: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upload-section:hover {
     border-color: #388e3c;
-  }
-  
-  input[type="file"] {
+}
+
+input[type="file"] {
     font-size: 1rem;
     padding: 12px 16px;
     cursor: pointer;
@@ -105,181 +104,180 @@
     border-radius: 8px;
     color: #2e7d32;
     transition: background-color 0.2s ease;
-  }
-  
-  input[type="file"]:hover {
+}
+
+input[type="file"]:hover {
     background-color: #c8e6c9;
-  }
-  
-  .upload-section img {
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border: 2px solid #4CAF50;
+}
+
+.upload-section img {
     margin-top: 20px;
     border-radius: 12px;
     max-width: 100%;
-    max-height: 250px; /* Limit max height for the image */
-    object-fit: contain; /* Maintain aspect ratio */
+    max-height: 250px;
+    object-fit: contain;
     border: 2px solid #c8e6c9;
 }
 
-/* Prevent the image from causing the container to expand too much */
-.smart-waste-container > .upload-section {
-    overflow: hidden; /* Prevent image overflow */
-    text-overflow: ellipsis; /* Ensures text doesn't overflow */
+.preview-image {
+    margin-top: 1.5rem;
+    border: 2px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 8px;
+    max-width: 250px;
 }
-  
-  /* Focus effect */
-  .upload-section input[type="file"]:focus {
-    outline: none;
-    border: 2px solid #4CAF50;
-  }
-  
-  /* Loading state */
-  .loading {
-    font-size: 1.25rem;
-    color: #ff9800;
-    margin-top: 20px;
-    animation: pulse 1.5s infinite ease-in-out;
-  }
 
-/* Parent must be relative to position mascot absolutely */
+/* Wrapper Layout */
 .smart-waste-wrapper {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  padding: 2rem;
-  flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 1rem;
 }
 
+.left-column,
+.right-column,
+.main-column,
 .mascot-column {
-  flex: 1;
-  max-width: 300px;
-  text-align: center;
-}
-  
-  .left-column {
     flex: 1;
+}
+
+.left-column {
     max-width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .right-column {
-    flex: 2;
-    max-width: 70%;
-  }
-  
-  /* Mascot section updated */
-  .mascot-image-box {
-    text-align: center;
-  }
-  
-.mascot-image-box img {
-  width: 100%;
-  max-width: 250px;
-  border-radius: 8px;
 }
-  
+
+.right-column {
+    max-width: 70%;
+}
+
+.mascot-column {
+    max-width: 300px;
+    text-align: center;
+}
+
+.mascot-image-box img {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 8px;
+}
+
 .mascot-tip {
-  margin-top: 0.5rem;
-  font-style: italic;
-  color: #4caf50;
-  font-weight: bold;
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #4caf50;
+    font-weight: bold;
 }
 
 .main-column {
-  flex: 3;
-  min-width: 300px;
+    min-width: 300px;
 }
 
-
+/* Camera Section */
 .camera-section-wrapper {
-  background-color: #f9fff9;
-  padding: 25px;
-  border: 2px solid #c8e6c9;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
+    background-color: #f9fff9;
+    padding: 25px;
+    border: 2px solid #c8e6c9;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
 }
 
 .camera-section-title {
-  font-size: 1.5rem;
-  color: #2e7d32;
-  margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #2e7d32;
+    margin-bottom: 15px;
 }
 
 .camera-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .camera-section video {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
 .camera-section button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #4caf50;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .camera-section button:hover {
-  background-color: #388e3c;
+    background-color: #388e3c;
 }
 
+/* Responsive Flex Row */
 .input-section-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .upload-section,
 .camera-section-wrapper {
-  flex: 1;
-  min-width: 220px;
+    flex: 1;
+    min-width: 220px;
 }
 
-  
-
-  @keyframes float {
+/* Animations */
+@keyframes float {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
-  }
+}
 
-  @keyframes pulse {
+@keyframes pulse {
     0%, 100% { opacity: 1 }
     50% { opacity: 0.5 }
-  } 
-  
-  /* Result output */
-  .result {
+}
+
+/* Loading State */
+.loading {
+    font-size: 1.25rem;
+    color: #ff9800;
+    margin-top: 20px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Result Output */
+.result {
     margin-top: 30px;
-  }
-  
-  .result h2 {
+}
+
+.result h2 {
     font-size: 2rem;
     color: #2e7d32;
     background-color: #e0f2f1;
     padding: 12px 20px;
     border-radius: 10px;
     display: inline-block;
-  }
-  
-  /* Eco Tips Box */
-  .eco-tips {
+}
+
+/* Eco Tips Box */
+.eco-tips {
     margin-top: 40px;
     background-color: #f1f8e9;
     padding: 20px;
@@ -287,17 +285,75 @@
     border-radius: 12px;
     text-align: left;
     box-shadow: 0 2px 6px rgba(0, 128, 0, 0.08);
-  }
-  
-  .eco-tips h3 {
+}
+
+.eco-tips h3 {
     font-size: 1.75rem;
     color: #388E3C;
     margin-bottom: 10px;
-  }
-  
-  .eco-tips p {
+}
+
+.eco-tips p {
     font-size: 1.1rem;
     color: #2e7d32;
     line-height: 1.6;   
-  }
-  
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        margin-left: 80px;
+    }
+
+    .smart-waste-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .smart-waste-container {
+    height: auto;
+    overflow-y: visible;
+        padding: 20px;
+        margin: 20px 10px;
+    }
+
+    .left-column,
+    .right-column,
+    .main-column,
+    .mascot-column {
+        max-width: 100%;
+        width: 100%;
+        flex: unset;
+    }
+
+    .upload-section,
+    .camera-section-wrapper {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .camera-section video,
+    .preview-image {
+        max-width: 100%;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .input-section-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}

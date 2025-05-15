@@ -1,7 +1,9 @@
+/* App Base */
 .App {
   text-align: center;
 }
 
+/* Logo Animation */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,21 +15,6 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -37,24 +24,69 @@
   }
 }
 
-/* App Container */
-.app-container {
-  display: flex;
+/* Header Styling */
+.App-header {
+  background-color: #282c34;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-/* Main Content Area */
+/* Link */
+.App-link {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+/* App Container Layout */
+.app-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden; /* prevent unwanted scroll on larger screens */
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    height: 100vh;       /* fix height to viewport */
+    overflow: hidden;    /* no scroll on container itself */
+  }
+}
+
+/* Main Content */
 .content {
   flex: 1;
   padding: 20px;
-  margin-left: 250px; /* Match the sidebar width */
-  min-height: 100vh;
   background-color: #f5f5f5;
-  overflow-y: auto;
+  overflow-y: auto;    /* enable vertical scroll */
+  box-sizing: border-box;
+  height: 100vh;       /* fill the viewport height */
 }
 
-/* Loading State */
+@media (max-width: 768px) {
+  .content {
+    padding: 16px;
+    height: 100vh; /* adjust if you have a header, subtract its height here */
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 12px;
+    height: 100vh;
+  }
+}
+
+/* Loading Screen */
 .loading {
   display: flex;
   justify-content: center;
@@ -64,28 +96,65 @@
   color: #666;
 }
 
-/* For login and signup pages */
+/* Auth Pages (Login/Signup) */
 .app-container .login-container,
 .app-container .signup-container {
   margin-left: 0;
   width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 8px;
+/* Scrollbar Styling ONLY for small screens (mobile) */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+/* Hide scrollbar for desktop and laptops (screens wider than 768px) */
+@media (min-width: 769px) {
+  /* For WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  /* For Firefox */
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important; /* IE and Edge */
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+/* Responsive Font Sizes */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
 }
 
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}

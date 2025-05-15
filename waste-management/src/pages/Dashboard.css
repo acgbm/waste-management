@@ -6,32 +6,29 @@ body, html {
   height: 100%;
   background-color: #F4F6F6;
   font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box; /* Ensures padding and border are included in the width and height */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;  /* Center horizontally */
+  align-items: flex-start;  /* Align top of dashboard */
+  min-height: 100vh;
+  overflow-x: hidden;       /* prevent horizontal scroll */
 }
 
 /* Styling for the dashboard container */
 .dashboard-container {
-  max-width: 100%;
+  width: 90vw;               /* Fluid width based on viewport */
+  max-width: 1400px;         /* Increased max width */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 95vh;
-  width: 100%;
   background-color: white;
   border-radius: 12px;
-  padding: 25px;
+  padding: clamp(10px, 1vw, 20px); /* Slightly reduced padding */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
   border-left: 5px solid #4CAF50;
-  overflow: hidden; /* Prevent overflow outside of the dashboard */
-}
-
-.calendar-container {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Changed from 5 to 3 */
-  gap: 20px;
   overflow-y: auto;
-  padding: 20px;
   box-sizing: border-box;
+  margin: 20px auto;         /* Center with auto margins */
 }
 
 /* Content inside the dashboard */
@@ -40,107 +37,140 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 20px;
-  overflow-x: auto; /* Allow horizontal scrolling */
+  padding: clamp(10px, 2vw, 20px);
+  overflow-x: auto;
+  overflow-y: hidden;
   box-sizing: border-box;
-  overflow-y: hidden; /* Prevent vertical overflow */
+}
+
+/* Calendar grid container */
+.calendar-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: clamp(10px, 2vw, 20px);
+  overflow-y: auto;
+  padding: clamp(10px, 2vw, 20px);
+  box-sizing: border-box;
 }
 
 /* Header styling */
 h2 {
-  font-size: 32px;
+  font-size: clamp(18px, 3vw, 32px);
   color: #4CAF50;
-  margin-bottom: 20px;
+  margin-bottom: clamp(10px, 2vw, 20px);
 }
 
-/* Filter button styling */
 .filters {
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: nowrap;           /* keep buttons side by side */
+  gap: 12px;                   /* spacing between buttons */
+  justify-content: flex-start; /* align left */
   margin-bottom: 20px;
+  overflow-x: auto;            /* horizontal scroll if too narrow */
 }
 
 .filters button {
-  margin-right: 10px;
-  padding: 15px 30px;
-  background-color: #4CAF50;
-  color: white;
+  flex: 1 1 auto;              /* buttons grow/shrink evenly */
+  min-width: 100px;            /* prevent buttons from getting too narrow */
+  padding: 8px 16px;
+  white-space: nowrap;         /* no wrapping inside buttons */
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  color: white;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .filters button.active {
   background-color: #45a049;
 }
 
+/* Color code for filter buttons */
+.filters button.biodegradable {
+  background-color: #27ae60;
+}
+
+.filters button.non-biodegradable {
+  background-color: #e67e22;
+}
+
+.filters button.recyclable {
+  background-color: #2980b9;
+}
+
 /* Slider container for the schedule cards */
 .slider-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Keep 5 columns */
-  gap: 30px;
-  padding: 20px;
-  overflow-y: auto; /* Add vertical scroll */
-  max-height: 500px; /* Adjust this to whatever height fits your design */
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(10px, 2vw, 30px);
+  padding: clamp(10px, 2vw, 20px) 0 clamp(10px, 2vw, 20px) 0;
+  max-height: 500px;
   width: 100%;
   box-sizing: border-box;
+  overflow-y: auto;
   scroll-behavior: smooth;
-  padding-right: 20px;
-}
 
+  /* Hide scrollbar by default on desktop and larger screens */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
 
 .slider-container::-webkit-scrollbar {
-  width: 8px;
+  display: none; /* Chrome, Safari, Opera */
 }
 
-.slider-container::-webkit-scrollbar-track {
-  background: transparent;
-  margin-top: 20px; /* space at the top of the scrollbar */
-  margin-bottom: 20px; /* space at the bottom */
-}
-
-.slider-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-}
-
-/* Styling for individual schedule cards */
+/* Individual schedule cards */
 .schedule-card {
   background-color: #f4f4f4;
   border-radius: 12px;
-  padding: 20px;
+  padding: clamp(10px, 2vw, 20px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
-  box-sizing: border-box;
-  width: 100%;
+  width: clamp(250px, 30vw, 320px);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .schedule-card:hover {
   transform: translateY(-15px);
 }
 
-/* Tag styling inside each card */
+/* Tag inside schedule cards */
 .schedule-card .tag {
-  background-color: #4CAF50;
   color: white;
   padding: 8px 15px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: clamp(12px, 1.5vw, 14px);
   margin-bottom: 15px;
+}
+
+/* Color codes for tags */
+.schedule-card.biodegradable .tag {
+  background-color: #27ae60;
+}
+
+.schedule-card.non-biodegradable .tag {
+  background-color: #e62222;
+}
+
+.schedule-card.recyclable .tag {
+  background-color: #2980b9;
 }
 
 .schedule-details {
   margin-bottom: 15px;
 }
 
+/* Status badges */
 .schedule-status .status-badge {
   display: inline-block;
   padding: 8px 15px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: clamp(12px, 1.5vw, 14px);
   color: white;
 }
 
@@ -183,107 +213,67 @@ h2 {
   background-color: #45a049;
 }
 
-/* Media queries for responsiveness */
-@media (max-width: 1200px) {
-  .dashboard-container {
-    padding: 10px;
-  }
-  .dashboard-card {
-    padding: 32px 16px;
-    max-width: 98vw;
-  }
-  .calendar-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 10px;
-  }
-}
-
-@media (max-width: 900px) {
-  .dashboard-container {
-    padding: 0;
-  }
-  .dashboard-card {
-    padding: 18px 4px;
-    max-width: 100vw;
-  }
-  .calendar-container {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 4px;
-  }
-  .dashboard-content {
-    padding: 8px;
-  }
+/* Show scrollbar only on small screens */
+@media (max-width: 768px) {
   .slider-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 8px;
-    max-height: 350px;
+    scrollbar-width: thin; /* Firefox */
+    -ms-overflow-style: auto; /* IE and Edge */
   }
-}
 
-@media (max-width: 600px) {
-  .dashboard-card {
-    padding: 8px 2px;
-    font-size: 15px;
+  .slider-container::-webkit-scrollbar {
+    display: block;
+    width: 8px;
   }
-  .calendar-container,
-  .slider-container {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    padding: 2px;
+
+  .slider-container::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
-  .filters button {
-    padding: 8px 12px;
-    font-size: 13px;
+
+  .slider-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
   }
+
   .nav-button {
-    padding: 6px 10px;
-    font-size: 14px;
+    padding: 0.9rem 2rem;
+    min-width: 140px;
+    max-width: 180px;
+    font-size: 1.1rem;
   }
-  h2 {
-    font-size: 22px;
+}
+
+/* Small screens (mobile) */
+@media (max-width: 600px) {
+  .nav-buttons-wrapper {
+    gap: 10px;                    /* a bit smaller gap */
+    padding: 0 1rem;
+    justify-content: space-between; /* spread buttons */
+    flex-wrap: nowrap;            /* keep side-by-side */
+  }
+
+  .nav-button {
+    min-width: 120px;
+    max-width: 140px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
   }
 }
 
-/* Color code for different types of waste */
-.schedule-card.biodegradable .tag {
-  background-color: #27ae60; /* Green for biodegradable waste */
-}
+/* Very small screens (small phones) */
+@media (max-width: 480px) {
+  .nav-buttons-wrapper {
+    gap: 8px;
+    padding: 0 0.5rem;
+    justify-content: space-between; /* keep side-by-side with less padding */
+    flex-wrap: nowrap;
+  }
 
-.schedule-card.non-biodegradable .tag {
-  background-color: #e62222; /* Orange for non-biodegradable waste */
-}
-
-.schedule-card.recyclable .tag {
-  background-color: #2980b9; /* Blue for recyclable waste */
-}
-/* Color code for filter buttons */
-.filters button.biodegradable {
-  background-color: #27ae60; /* Green for biodegradable waste */
-}
-
-.filters button.non-biodegradable {
-  background-color: #e67e22; /* Orange for non-biodegradable waste */
-}
-
-.filters button.recyclable {
-  background-color: #2980b9; /* Blue for recyclable waste */
-}
-
-/* Active state color for buttons */
-.filters button.active {
-  background-color: #45a049; /* Darker shade when active */
-}
-
-/* Reset styling for all buttons in filters */
-.filters button {
-  margin-right: 10px;
-  padding: 15px 30px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+  .nav-button {
+    min-width: 100px;
+    max-width: 130px;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+  }
 }

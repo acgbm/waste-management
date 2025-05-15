@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebaseConfig';
-import { collection, addDoc, getDocs, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import './Scheduling.css';
 
 const Scheduling = () => {
@@ -15,6 +15,10 @@ const Scheduling = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
 
+  // Get today's date in YYYY-MM-DD format for disabling past dates
+  const today = new Date();
+  const minDate = today.toISOString().split('T')[0];
+
   useEffect(() => {
     fetchSchedules();
   }, []);
@@ -26,7 +30,7 @@ const Scheduling = () => {
         id: doc.id,
         ...doc.data()
       }));
-      console.log("Fetched schedules:", scheduleData); // Debug log
+      console.log("Fetched schedules:", scheduleData);
       setSchedules(scheduleData);
       setLoading(false);
     } catch (error) {
@@ -43,7 +47,7 @@ const Scheduling = () => {
     }));
   };
 
-  // Add time format conversion function
+  // Format 24-hour time to 12-hour AM/PM
   const formatTime = (time24) => {
     if (!time24) return '';
     const [hours, minutes] = time24.split(':');
@@ -60,15 +64,13 @@ const Scheduling = () => {
     let hour = parseInt(hours);
     let minute = parseInt(minutes);
     
-    // Subtract 30 minutes
     if (minute < 30) {
-      hour = (hour - 1 + 24) % 24; // Handle midnight rollover
+      hour = (hour - 1 + 24) % 24;
       minute = minute + 30;
     } else {
       minute = minute - 30;
     }
-    
-    // Format the time
+
     const ampm = hour >= 12 ? 'PM' : 'AM';
     const hour12 = hour % 12 || 12;
     return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
@@ -76,10 +78,16 @@ const Scheduling = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate barangay field
+
+    // Validate barangay
     if (!newSchedule.barangay.trim()) {
       alert('Please enter a barangay location');
+      return;
+    }
+
+    // Validate date is not in the past
+    if (newSchedule.date < minDate) {
+      alert('You cannot select a past date.');
       return;
     }
 
@@ -87,13 +95,13 @@ const Scheduling = () => {
       const scheduleData = {
         ...newSchedule,
         barangay: newSchedule.barangay.trim(),
-        time: newSchedule.time, // Store original 24-hour format
-        timeFormatted: formatTime(newSchedule.time), // Store formatted time
+        time: newSchedule.time,
+        timeFormatted: formatTime(newSchedule.time),
         createdAt: new Date().toISOString()
       };
 
       await addDoc(collection(db, 'schedules'), scheduleData);
-      
+
       setNewSchedule({
         barangay: '',
         date: '',
@@ -101,7 +109,7 @@ const Scheduling = () => {
         type: 'biodegradable',
         status: 'pending'
       });
-      
+
       fetchSchedules();
       alert('Schedule added successfully!');
     } catch (error) {
@@ -173,6 +181,7 @@ const Scheduling = () => {
                 onChange={handleInputChange}
                 required
                 className="form-control"
+                min={minDate}
               />
             </div>
 
@@ -210,7 +219,7 @@ const Scheduling = () => {
         {/* Schedule List */}
         <div className="schedule-list">
           <h3>Existing Schedules</h3>
-          
+
           <div className="filter-buttons">
             <button
               className={filter === 'all' ? 'active' : ''}
@@ -303,4 +312,4 @@ const Scheduling = () => {
   );
 };
 
-export default Scheduling; 
+export default Scheduling;
