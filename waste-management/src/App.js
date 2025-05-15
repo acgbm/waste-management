@@ -13,6 +13,7 @@ import WasteLog from "./pages/wastelog";
 import Profile from "./pages/Profile";
 import TestProfile from "./pages/TestProfile";
 import "./App.css";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 
 // Layout component to wrap protected routes
@@ -103,7 +104,7 @@ function App() {
             {/* Protected routes */}
             <Route path="/" element={<ProtectedRoute><RootRedirect /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+            <Route path="/admin" element={<AdminRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></AdminRoute>} />
             <Route path="/scheduling" element={<AdminRoute><Scheduling /></AdminRoute>} />
             <Route path="/waste-guide" element={<ProtectedRoute><WasteGuide /></ProtectedRoute>} />
             <Route path="/submit-waste" element={<ProtectedRoute><WasteLog /></ProtectedRoute>} />

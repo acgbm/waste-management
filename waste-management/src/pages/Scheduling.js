@@ -148,155 +148,152 @@ const Scheduling = () => {
       <div className="scheduling-content">
         <h2>Collection Schedule Management</h2>
 
-        {/* Schedule Creation Form */}
-        <div className="schedule-form">
-          <h3>Create New Schedule</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Barangay:</label>
-              <input
-                type="text"
-                name="barangay"
-                value={newSchedule.barangay}
-                onChange={handleInputChange}
-                required
-                className="form-control"
-              />
+        <div className="side-by-side-container">
+          <div className="side-form">
+            <div className="schedule-form">
+              <h3>Create New Schedule</h3>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label>Barangay:</label>
+                  <input
+                    type="text"
+                    name="barangay"
+                    value={newSchedule.barangay}
+                    onChange={handleInputChange}
+                    required
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Date:</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={newSchedule.date}
+                    onChange={handleInputChange}
+                    required
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Time:</label>
+                  <input
+                    type="time"
+                    name="time"
+                    value={newSchedule.time}
+                    onChange={handleInputChange}
+                    required
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Type:</label>
+                  <select
+                    name="type"
+                    value={newSchedule.type}
+                    onChange={handleInputChange}
+                    required
+                    className="form-control"
+                  >
+                    <option value="biodegradable">Biodegradable</option>
+                    <option value="non-biodegradable">Non-biodegradable</option>
+                    <option value="recyclable">Recyclable</option>
+                  </select>
+                </div>
+                <button type="submit" className="submit-btn">Add Schedule</button>
+              </form>
             </div>
-
-            <div className="form-group">
-              <label>Date:</label>
-              <input
-                type="date"
-                name="date"
-                value={newSchedule.date}
-                onChange={handleInputChange}
-                required
-                className="form-control"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Time:</label>
-              <input
-                type="time"
-                name="time"
-                value={newSchedule.time}
-                onChange={handleInputChange}
-                required
-                className="form-control"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Type:</label>
-              <select
-                name="type"
-                value={newSchedule.type}
-                onChange={handleInputChange}
-                required
-                className="form-control"
-              >
-                <option value="biodegradable">Biodegradable</option>
-                <option value="non-biodegradable">Non-biodegradable</option>
-                <option value="recyclable">Recyclable</option>
-              </select>
-            </div>
-
-            <button type="submit" className="submit-btn">Add Schedule</button>
-          </form>
-        </div>
-
-        {/* Schedule List */}
-        <div className="schedule-list">
-          <h3>Existing Schedules</h3>
-          
-          <div className="filter-buttons">
-            <button
-              className={filter === 'all' ? 'active' : ''}
-              onClick={() => setFilter('all')}
-            >
-              All
-            </button>
-            <button
-              className={filter === 'biodegradable' ? 'active' : ''}
-              onClick={() => setFilter('biodegradable')}
-            >
-              Biodegradable
-            </button>
-            <button
-              className={filter === 'non-biodegradable' ? 'active' : ''}
-              onClick={() => setFilter('non-biodegradable')}
-            >
-              Non-biodegradable
-            </button>
-            <button
-              className={filter === 'recyclable' ? 'active' : ''}
-              onClick={() => setFilter('recyclable')}
-            >
-              Recyclable
-            </button>
           </div>
-
-          {loading ? (
-            <div className="loading">Loading schedules...</div>
-          ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Barangay</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSchedules.length > 0 ? (
-                  filteredSchedules.map(schedule => (
-                    <tr key={schedule.id} className={`schedule-row ${schedule.type}`}>
-                      <td>{schedule.barangay || 'No location set'}</td>
-                      <td>{schedule.date}</td>
-                      <td>
-                        {schedule.timeFormatted || formatTime(schedule.time)}
-                        <div className="put-out-note">
-                          Put out waste bags before {calculatePutOutTime(schedule.time)}
-                        </div>
-                      </td>
-                      <td>{schedule.type}</td>
-                      <td>
-                        <select
-                          value={schedule.status || 'pending'}
-                          onChange={(e) => handleUpdateStatus(schedule.id, e.target.value)}
-                          className={`status-${schedule.status}`}
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="in-progress">In Progress</option>
-                          <option value="completed">Completed</option>
-                          <option value="cancelled">Cancelled</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => handleDelete(schedule.id)}
-                          className="delete-btn"
-                        >
-                          Delete
-                        </button>
-                      </td>
+          <div className="side-list">
+            <div className="schedule-list">
+              <h3>Existing Schedules</h3>
+              <div className="filter-buttons">
+                <button
+                  className={filter === 'all' ? 'active' : ''}
+                  onClick={() => setFilter('all')}
+                >
+                  All
+                </button>
+                <button
+                  className={filter === 'biodegradable' ? 'active' : ''}
+                  onClick={() => setFilter('biodegradable')}
+                >
+                  Biodegradable
+                </button>
+                <button
+                  className={filter === 'non-biodegradable' ? 'active' : ''}
+                  onClick={() => setFilter('non-biodegradable')}
+                >
+                  Non-biodegradable
+                </button>
+                <button
+                  className={filter === 'recyclable' ? 'active' : ''}
+                  onClick={() => setFilter('recyclable')}
+                >
+                  Recyclable
+                </button>
+              </div>
+              {loading ? (
+                <div className="loading">Loading schedules...</div>
+              ) : (
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Barangay</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Actions</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6" className="no-schedules">
-                      No schedules found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          )}
+                  </thead>
+                  <tbody>
+                    {filteredSchedules.length > 0 ? (
+                      filteredSchedules.map(schedule => (
+                        <tr key={schedule.id} className={`schedule-row ${schedule.type}`}>
+                          <td>{schedule.barangay || 'No location set'}</td>
+                          <td>{schedule.date}</td>
+                          <td>
+                            {schedule.timeFormatted || formatTime(schedule.time)}
+                            <div className="put-out-note">
+                              Put out waste bags before {calculatePutOutTime(schedule.time)}
+                            </div>
+                          </td>
+                          <td>{schedule.type}</td>
+                          <td>
+                            <select
+                              value={schedule.status || 'pending'}
+                              onChange={(e) => handleUpdateStatus(schedule.id, e.target.value)}
+                              className={`status-${schedule.status}`}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="in-progress">In Progress</option>
+                              <option value="completed">Completed</option>
+                              <option value="cancelled">Cancelled</option>
+                            </select>
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => handleDelete(schedule.id)}
+                              className="delete-btn"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6" className="no-schedules">
+                          No schedules found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
