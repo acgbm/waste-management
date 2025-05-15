@@ -7,6 +7,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import WasteGuide from "./pages/WasteGuide";
 import Scheduling from "./pages/Scheduling";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 import SmartWaste from "./pages/SmartWaste";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import WasteLog from "./pages/wastelog";
@@ -20,6 +21,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 const Layout = ({ children }) => {  
   return (
     <div className="app-layout">
+      <Header />
       <Sidebar />
       <div className="content">
         {children}
