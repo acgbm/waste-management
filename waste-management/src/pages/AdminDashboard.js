@@ -29,15 +29,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const formatTime = (time24) => {
-    if (!time24) return '';
-    const [hours, minutes] = time24.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const hour12 = hour % 12 || 12;
-    return `${hour12}:${minutes} ${ampm}`;
-  };
-
   const fetchSchedules = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "schedules"));
@@ -50,6 +41,15 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error("Error fetching schedules:", error);
     }
+  };
+
+  const formatTime = (time24) => {
+    if (!time24) return '';
+    const [hours, minutes] = time24.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
   };
 
   const handleArchiveUser = async (userId) => {
@@ -123,7 +123,7 @@ const AdminDashboard = () => {
             {activeTab === "users" && (
               <div className="users-table">
                 <div className="table-header">
-                  <h3>Registered Users ({users.length})</h3>
+                  <h3>Registered Users ({users.filter(user => user.email !== 'keneki06113@gmail.com' && user.email !== '202210388@gordoncollege.edu.ph').length})</h3>
                 </div>
                 <table>
                   <thead>
@@ -137,12 +137,12 @@ const AdminDashboard = () => {
                   </thead>
                   <tbody>
                     {users.length > 0 ? (
-                      users.map(user => (
+                      users.filter(user => user.email !== 'keneki06113@gmail.com' && user.email !== '202210388@gordoncollege.edu.ph').map(user => (
                         <tr key={user.id}>
-                          <td>{`${user.firstName || ''} ${user.lastName || ''}`}</td>
-                          <td>{user.email}</td>
-                          <td>{user.phone || 'N/A'}</td>
-                          <td>{user.address || 'N/A'}</td>
+                          <td>{String(user.firstName || '') + ' ' + String(user.lastName || '')}</td>
+                          <td>{String(user.email || '')}</td>
+                          <td>{String(user.phone || 'N/A')}</td>
+                          <td>{String(user.address || 'N/A')}</td>
                           <td>
                             <div className="action-buttons">
                               <button 
@@ -167,7 +167,9 @@ const AdminDashboard = () => {
 
             {activeTab === "schedules" && (
               <div className="schedules-table">
+                <div className="table-header">
                 <h3>Collection Schedules</h3>
+                </div>
                 <table>
                   <thead>
                     <tr>
@@ -182,10 +184,10 @@ const AdminDashboard = () => {
                   <tbody>
                     {schedules.map((schedule) => (
                       <tr key={schedule.id} className={schedule.type}>
-                        <td>{schedule.barangay || 'No location set'}</td>
-                        <td>{schedule.date}</td>
-                        <td>{schedule.timeFormatted || formatTime(schedule.time)}</td>
-                        <td>{schedule.type}</td>
+                        <td>{String(schedule.barangay || 'No location set')}</td>
+                        <td>{String(schedule.date || '')}</td>
+                        <td>{String(schedule.timeFormatted || formatTime(schedule.time) || '')}</td>
+                        <td>{String(schedule.type || '')}</td>
                         <td>
                           <select
                             value={schedule.status || "pending"}

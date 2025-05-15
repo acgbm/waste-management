@@ -12,21 +12,23 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f9f9f9;
+  background: linear-gradient(135deg, #e0f7fa 0%, #f9f9f9 60%, #e3ffe6 100%);
   box-sizing: border-box;
   padding: 20px;
 }
 
 .admin-dashboard-content {
-  width: 100%;
-  max-width: 1000px;
+  width: 1500px;
+  max-width: 1500px;
   height: 90vh; /* Use only 90% of viewport height */
   overflow-y: auto; /* Enable vertical scroll if needed */
   background: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 32px rgba(0, 100, 0, 0.10), 0 1.5px 8px rgba(0,0,0,0.08);
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 16px;
   box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .admin-dashboard-content::-webkit-scrollbar {
@@ -68,6 +70,13 @@ h2 {
   margin-bottom: 10px;
 }
 
+.users-table,
+.schedules-table {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+}
+
 .users-table table,
 .schedules-table table {
   width: 100%;
@@ -79,6 +88,14 @@ table td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: left;
+}
+
+.schedules-table table th,
+.schedules-table table td,
+.users-table table th,
+.users-table table td {
+  width: 16.66%; /* 100% / 6 columns for schedules, 5 for users but keeps them even */
+  min-width: 120px;
 }
 
 .archive-btn {
@@ -126,4 +143,17 @@ select {
   text-align: center;
   font-size: 18px;
   margin-top: 20px;
+}
+
+.recyclable {
+  border-left: 4px solid #007bff;
+  background: #e6f0fb;
+}
+.biodegradable {
+  border-left: 4px solid #28a745;
+  background: #e6f4ea;
+}
+.non-biodegradable {
+  border-left: 4px solid #dc3545;
+  background: #fbe6e9;
 }

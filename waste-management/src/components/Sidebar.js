@@ -73,6 +73,11 @@ const Sidebar = () => {
               <img src={guideIcon} alt="Waste Guide Icon" className="menu-icon" />
               Waste Guide</Link>
             </li>
+            <li>
+              <Link to="/profile">
+              <img src={guideIcon} alt="Profile Icon" className="menu-icon" />
+              Profile</Link>
+            </li>
           </>
         )}
       </ul>
