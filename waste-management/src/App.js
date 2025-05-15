@@ -10,6 +10,8 @@ import Sidebar from "./components/Sidebar";
 import SmartWaste from "./pages/SmartWaste";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import WasteLog from "./pages/wastelog";
+import Profile from "./pages/Profile";
+import TestProfile from "./pages/TestProfile";
 import "./App.css";
 
 
@@ -106,6 +108,8 @@ function App() {
             <Route path="/waste-guide" element={<ProtectedRoute><WasteGuide /></ProtectedRoute>} />
             <Route path="/submit-waste" element={<ProtectedRoute><WasteLog /></ProtectedRoute>} />
             <Route path="/smart-waste" element={<ProtectedRoute><SmartWaste /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/test-profile" element={<TestProfile />} />
 
             {/* Redirect to login if no match */}
 

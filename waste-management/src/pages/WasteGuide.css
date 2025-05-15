@@ -181,26 +181,59 @@ html, body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .waste-guide-container {
-    padding: 20px;
-    width: 95vw;
-    height: 95vh;
+    width: 98vw;
+    height: auto;
+    padding: 16px;
+    margin: 2vw auto;
   }
   .waste-guide-content {
-    width: 100%;
-    padding: 20px 15px;
+    padding: 16px 8px;
+  }
+  .waste-guide-section.all-waste-guide {
+    flex-direction: column;
+    padding: 8px 0;
+  }
+  .waste-guide-images,
+  .waste-guide-images-recycle {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 700px) {
+  .waste-guide-container {
+    width: 100vw;
+    padding: 4px;
+    margin: 0;
+    min-height: 100vh;
+  }
+  .waste-guide-content {
+    padding: 4px 2px;
+  }
+  .waste-guide-section.all-waste-guide {
+    flex-direction: column;
+    padding: 2px 0;
+  }
+  .waste-guide-images,
+  .waste-guide-images-recycle {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .waste-guide-content h2 {
+    font-size: 1.3rem;
+  }
+  .waste-guide-content p {
+    font-size: 1rem;
   }
   .waste-guide-category {
-    width: 100%;
-    margin-top: 20px;
+    padding: 8px;
   }
   .category-nav-button {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-  .category-nav-container-left,
-  .category-nav-container-right {
-    width: auto;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    padding: 4px 6px;
   }
 }
