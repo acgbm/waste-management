@@ -1,279 +1,218 @@
-/* Resetting margin and padding for the entire document */
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #F4F6F6;
-  font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;  /* Center horizontally */
-  align-items: flex-start;  /* Align top of dashboard */
-  min-height: 100vh;
-  overflow-x: hidden;       /* prevent horizontal scroll */
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-/* Styling for the dashboard container */
 .dashboard-container {
-  width: 90vw;               /* Fluid width based on viewport */
-  max-width: 1400px;         /* Increased max width */
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 12px;
-  padding: clamp(10px, 1vw, 20px); /* Slightly reduced padding */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  border-left: 5px solid #4CAF50;
-  overflow-y: auto;
-  box-sizing: border-box;
-  margin: 20px auto;         /* Center with auto margins */
-}
-
-/* Content inside the dashboard */
-.dashboard-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: clamp(10px, 2vw, 20px);
-  overflow-x: auto;
-  overflow-y: hidden;
+  font-family: "Poppins", sans-serif;
+  padding: 6rem 2rem 2rem 15rem; /* ⬅️ shifted right and down for header + sidebar */
+  background-color: #f4f7fb;
   box-sizing: border-box;
 }
 
-/* Calendar grid container */
-.calendar-container {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: clamp(10px, 2vw, 20px);
-  overflow-y: auto;
-  padding: clamp(10px, 2vw, 20px);
-  box-sizing: border-box;
+.dashboard-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.2rem;
+  color: #1d71f2;
 }
 
-/* Header styling */
-h2 {
-  font-size: clamp(18px, 3vw, 32px);
-  color: #4CAF50;
-  margin-bottom: clamp(10px, 2vw, 20px);
+.dashboard-header p {
+  color: #444;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
-.filters {
+.dashboard-nav {
   display: flex;
-  flex-wrap: nowrap;           /* keep buttons side by side */
-  gap: 12px;                   /* spacing between buttons */
-  justify-content: flex-start; /* align left */
-  margin-bottom: 20px;
-  overflow-x: auto;            /* horizontal scroll if too narrow */
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.filters button {
-  flex: 1 1 auto;              /* buttons grow/shrink evenly */
-  min-width: 100px;            /* prevent buttons from getting too narrow */
-  padding: 8px 16px;
-  white-space: nowrap;         /* no wrapping inside buttons */
+.dashboard-nav button {
+  padding: 0.6rem 1.2rem;
+  background-color: #ddd;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dashboard-nav button.active {
+  background-color: #1d71f2;
+  color: white;
+}
+
+.filter-dropdown {
+  margin-bottom: 1rem;
+}
+
+.filter-select {
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: white;
   border: none;
   border-radius: 6px;
-  color: white;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
 }
 
-.filters button.active {
-  background-color: #45a049;
-}
-
-/* Color code for filter buttons */
-.filters button.biodegradable {
-  background-color: #27ae60;
-}
-
-.filters button.non-biodegradable {
-  background-color: #e67e22;
-}
-
-.filters button.recyclable {
-  background-color: #2980b9;
-}
-
-/* Slider container for the schedule cards */
-.slider-container {
+.schedule-section {
   display: flex;
-  flex-wrap: wrap;
-  gap: clamp(10px, 2vw, 30px);
-  padding: clamp(10px, 2vw, 20px) 0 clamp(10px, 2vw, 20px) 0;
-  max-height: 500px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-y: auto;
+  align-items: center;
+  position: relative;
+}
+
+.scroll-btn {
+  background: #1d71f2;
+  border: none;
+  color: white;
+  font-size: 1.2rem; /* smaller */
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.scroll-btn.left {
+  margin-right: 0.5rem;
+}
+
+.scroll-btn.right {
+  margin-left: 0.5rem;
+}
+
+.schedule-slider {
+  display: flex;
+  overflow-x: auto;
   scroll-behavior: smooth;
-
-  /* Hide scrollbar by default on desktop and larger screens */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  gap: 1rem;
+  padding: 1rem 0;
 }
 
-.slider-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.schedule-slider::-webkit-scrollbar {
+  height: 6px;
+}
+.schedule-slider::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
-/* Individual schedule cards */
 .schedule-card {
-  background-color: #f4f4f4;
-  border-radius: 12px;
-  padding: clamp(10px, 2vw, 20px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  width: clamp(250px, 30vw, 320px);
+  min-width: 250px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  flex-shrink: 0;
+  gap: 0.5rem;
 }
 
-.schedule-card:hover {
-  transform: translateY(-15px);
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Tag inside schedule cards */
-.schedule-card .tag {
-  color: white;
-  padding: 8px 15px;
+.tag {
+  font-weight: bold;
+  color: #1d71f2;
+  text-transform: capitalize;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
   border-radius: 5px;
-  font-size: clamp(12px, 1.5vw, 14px);
-  margin-bottom: 15px;
-}
-
-/* Color codes for tags */
-.schedule-card.biodegradable .tag {
-  background-color: #27ae60;
-}
-
-.schedule-card.non-biodegradable .tag {
-  background-color: #e62222;
-}
-
-.schedule-card.recyclable .tag {
-  background-color: #2980b9;
-}
-
-.schedule-details {
-  margin-bottom: 15px;
-}
-
-/* Status badges */
-.schedule-status .status-badge {
-  display: inline-block;
-  padding: 8px 15px;
-  border-radius: 5px;
-  font-size: clamp(12px, 1.5vw, 14px);
+  font-size: 0.75rem;
   color: white;
 }
 
 .status-badge.pending {
-  background-color: #f39c12;
+  background-color: #ffb800;
 }
 
 .status-badge.completed {
-  background-color: #27ae60;
+  background-color: #4caf50;
 }
 
 .status-badge.cancelled {
-  background-color: #e74c3c;
+  background-color: #f44336;
 }
 
-/* Navigation buttons wrapper */
-.nav-buttons-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 0 10px;
-  gap: 20px; /* Added space between the left and right buttons */
+.schedule-card h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #222;
 }
 
-/* Styling for the navigation buttons */
-.nav-button {
-  background-color: #4CAF50; /* green for eco theme */
-  color: white;
-  border: none;
-  padding: 8px 16px; /* Reduced padding to make buttons smaller */
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px; /* Slightly smaller font */
-  transition: background-color 0.3s ease;
+.schedule-time {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #555;
 }
 
-/* Hover effect for the navigation buttons */
-.nav-button:hover {
-  background-color: #45a049;
+.put-out-note {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #777;
+  margin-top: auto;
 }
 
-/* Show scrollbar only on small screens */
+/* Border accent colors */
+.schedule-card.biodegradable {
+  border-left: 5px solid #4caf50;
+}
+
+.schedule-card.non-biodegradable {
+  border-left: 5px solid #f44336;
+}
+
+.schedule-card.recyclable {
+  border-left: 5px solid #2196f3;
+}
+
+.no-schedules {
+  text-align: center;
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.calendar-section {
+  width: 100%;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  min-height: 400px;
+}
+
 @media (max-width: 768px) {
-  .slider-container {
-    scrollbar-width: thin; /* Firefox */
-    -ms-overflow-style: auto; /* IE and Edge */
+  .dashboard-container {
+    padding: 5rem 1rem 1rem 1rem;
   }
 
-  .slider-container::-webkit-scrollbar {
-    display: block;
-    width: 8px;
+  .dashboard-nav {
+    flex-direction: column;
   }
 
-  .slider-container::-webkit-scrollbar-track {
-    background: transparent;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  .schedule-card {
+    min-width: 220px;
   }
 
-  .slider-container::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-  }
-
-  .nav-button {
-    padding: 0.9rem 2rem;
-    min-width: 140px;
-    max-width: 180px;
-    font-size: 1.1rem;
-  }
-}
-
-/* Small screens (mobile) */
-@media (max-width: 600px) {
-  .nav-buttons-wrapper {
-    gap: 10px;                    /* a bit smaller gap */
-    padding: 0 1rem;
-    justify-content: space-between; /* spread buttons */
-    flex-wrap: nowrap;            /* keep side-by-side */
-  }
-
-  .nav-button {
-    min-width: 120px;
-    max-width: 140px;
-    padding: 0.8rem 1.5rem;
-    font-size: 1.1rem;
-  }
-}
-
-/* Very small screens (small phones) */
-@media (max-width: 480px) {
-  .nav-buttons-wrapper {
-    gap: 8px;
-    padding: 0 0.5rem;
-    justify-content: space-between; /* keep side-by-side with less padding */
-    flex-wrap: nowrap;
-  }
-
-  .nav-button {
-    min-width: 100px;
-    max-width: 130px;
-    padding: 0.7rem 1.2rem;
+  .scroll-btn {
+    width: 30px;
+    height: 30px;
     font-size: 1rem;
+    padding: 0.3rem;
+  }
+
+  .filter-select {
+    width: 100%;
   }
 }

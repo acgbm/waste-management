@@ -10,20 +10,18 @@ const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("schedule");
   const sliderRef = useRef();
 
-  // 🧠 Convert 24-hour time to 12-hour format
   const formatTime = (time24) => {
-    if (!time24) return '';
-    const [hours, minutes] = time24.split(':');
+    if (!time24) return "";
+    const [hours, minutes] = time24.split(":");
     const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const ampm = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
     return `${hour12}:${minutes} ${ampm}`;
   };
 
-  // 📦 Calculate when to put out trash (30 min earlier)
   const calculatePutOutTime = (time24) => {
-    if (!time24) return '';
-    const [hours, minutes] = time24.split(':');
+    if (!time24) return "";
+    const [hours, minutes] = time24.split(":");
     let hour = parseInt(hours);
     let minute = parseInt(minutes);
 
@@ -34,12 +32,11 @@ const Dashboard = () => {
       minute = minute - 30;
     }
 
-    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const ampm = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
-    return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
+    return `${hour12}:${minute.toString().padStart(2, "0")} ${ampm}`;
   };
 
-  // ✅ Check if schedule date is today or in the future
   const isUpcoming = (dateString) => {
     const today = new Date();
     const scheduleDate = new Date(dateString + "T00:00:00");
@@ -63,7 +60,7 @@ const Dashboard = () => {
               date: formattedDate,
             };
           })
-          .filter(schedule => isUpcoming(schedule.date)); // ⛔ Filter out past
+          .filter((schedule) => isUpcoming(schedule.date));
 
         setSchedules(scheduleData);
       } catch (error) {
@@ -77,10 +74,10 @@ const Dashboard = () => {
   const scrollList = (direction) => {
     const container = sliderRef.current;
     const scrollAmount = 250;
-    if (direction === 'left') {
-      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    if (direction === "left") {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
     } else {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
@@ -94,70 +91,101 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-content">
-        <h2>Dashboard</h2>
-        <p>Upcoming Waste Collection</p>
+      <header className="dashboard-header">
+        <h1>Waste Management Dashboard</h1>
+        <p>Upcoming Waste Collection Schedules</p>
+      </header>
 
-        {/* Filters */}
+      {/* Navigation Tabs */}
+      <nav className="dashboard-nav">
+        <button
+          className={activeSection === "schedule" ? "active" : ""}
+          onClick={() => setActiveSection("schedule")}
+        >
+          Schedule
+        </button>
+        <button
+          className={activeSection === "calendar" ? "active" : ""}
+          onClick={() => setActiveSection("calendar")}
+        >
+          Calendar
+        </button>
+      </nav>
+
+      {/* Filter Dropdown */}
+      {activeSection === "schedule" && (
+        <div className="filter-dropdown">
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All</option>
+            <option value="biodegradable">Biodegradable</option>
+            <option value="non-biodegradable">Non-Biodegradable</option>
+            <option value="recyclable">Recyclable</option>
+          </select>
+        </div>
+      )}
+
+      {/* Schedule Cards or Calendar */}
+      <main className="dashboard-main">
         {activeSection === "schedule" && (
-          <div className="filters">
-            {["all", "biodegradable", "non-biodegradable", "recyclable"].map((type) => (
-              <button
-                key={type}
-                onClick={() => setFilterType(type)}
-                className={filterType === type ? "active" : ""}
-              >
-                {type.charAt(0).toUpperCase() + type.slice(1)}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Nav Buttons */}
-<div className="nav-buttons-wrapper">
-  <button onClick={() => setActiveSection("schedule")} className="nav-button left">&lt;</button>
-  <button onClick={() => setActiveSection("calendar")} className="nav-button right">&gt;</button>
-</div>
-
-
-        {/* Schedule Section */}
-        {activeSection === "schedule" && (
-          <div className="slider-controls">
-            <div className="slider-container" ref={sliderRef}>
+          <div className="schedule-section">
+            <button
+              className="scroll-btn left"
+              onClick={() => scrollList("left")}
+              aria-label="Scroll left"
+            >
+              &lt;
+            </button>
+            <div className="schedule-slider" ref={sliderRef}>
               {filteredSchedules.length > 0 ? (
                 filteredSchedules.map((schedule) => (
-                  <div key={schedule.id} className={`schedule-card ${schedule.type.replace(/\s+/g, "-").toLowerCase()}`}>
-                    <span className="tag">{schedule.type}</span>
-                    <div className="schedule-details">
-                      <strong>{schedule.barangay}</strong>
-                      <p className="schedule-time">
-                        {schedule.date} at {schedule.timeFormatted || formatTime(schedule.time)}
-                      </p>
-                      <p className="put-out-note">
-                        Put out waste bags before {calculatePutOutTime(schedule.time)}
-                      </p>
-                    </div>
-                    <div className="schedule-status">
-                      <span className={`status-badge ${schedule.status}`}>
-                        {schedule.status || 'pending'}
+                  <article
+                    key={schedule.id}
+                    className={`schedule-card ${schedule.type
+                      .replace(/\s+/g, "-")
+                      .toLowerCase()}`}
+                  >
+                    <div className="card-header">
+                      <span className="tag">{schedule.type}</span>
+                      <span
+                        className={`status-badge ${schedule.status || "pending"}`}
+                      >
+                        {schedule.status || "pending"}
                       </span>
                     </div>
-                  </div>
+                    <h3>{schedule.barangay}</h3>
+                    <p className="schedule-time">
+                      {schedule.date} at{" "}
+                      {schedule.timeFormatted || formatTime(schedule.time)}
+                    </p>
+                    <p className="put-out-note">
+                      Put out waste bags before {calculatePutOutTime(schedule.time)}
+                    </p>
+                  </article>
                 ))
               ) : (
                 <p className="no-schedules">No schedules available!</p>
               )}
             </div>
+            <button
+              className="scroll-btn right"
+              onClick={() => scrollList("right")}
+              aria-label="Scroll right"
+            >
+              &gt;
+            </button>
           </div>
         )}
 
-        {/* Calendar Section */}
         {activeSection === "calendar" && (
-          <div className="calendar-section">
+          <section className="calendar-section">
             <ScheduleCalendar schedules={schedules} />
-          </div>
+          </section>
         )}
-      </div>
+      </main>
     </div>
   );
 };
